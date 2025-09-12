@@ -79,8 +79,5 @@
 *.woff  filter=lfs diff=lfs merge=lfs -text
 *.woff2 filter=lfs diff=lfs merge=lfs -text
 
-###############################################################################
-# Optional: Normalize line endings for text files (keep code/config out of LFS)
-# Uncomment the next line to enforce LF for text files across platforms
-# * text=auto eol=lf
-###############################################################################
+# Normalize EOL for all files that Git considers text files.
+* text=auto eol=lf
