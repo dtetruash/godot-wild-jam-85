@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Wild Jam 85"
 config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="uid://b0dp33m3r8urf"
 
 [dotnet]
 
