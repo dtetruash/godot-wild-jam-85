@@ -1,3 +1,53 @@
-[gd_scene format=3 uid="uid://jx72y87c7ysq"]
+[gd_scene load_steps=3 format=3 uid="uid://jx72y87c7ysq"]
 
 [node name="RailSegment" type="Node3D"]
+
+[ext_resource type="Material" uid="uid://csl4plser1ynq" path="res://Rails/rail_setment/material_rail_metal.tres" id="1_qc7oo"]
+
+[sub_resource type="Curve3D" id="Curve3D_m6w3m"]
+closed = true
+_data = {
+"points": PackedVector3Array(-2.28475, 0, 2.15869, 2.28475, 0, -2.15869, -7.08893, 0, -4.9207, -2.53686, 0, -1.08723, 2.53686, 0, 1.08723, 7.28136, 0, -5.77157, 0.456947, 0, -2.28475, -0.456947, 0, 2.28475, 11.2363, 0, 0.893591, 2.53686, 0, 1.84356, -2.53686, 0, -1.84356, 3.59425, 0, 7.19635, 1.89083, 0, -3.92347, -1.89083, 0, 3.92347, -7.08471, 0.887164, 7.45399, 0.756331, 0, 3.67135, -0.756331, 0, -3.67135, -11.1656, 2.57981, 3.72983),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+up_vector_enabled = false
+
+[node name="RailSegment" type="Node3D"]
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0183811, 0, -0.0190325)
+curve = SubResource("Curve3D_m6w3m")
+
+[node name="TrackRight" type="CSGPolygon3D" parent="Path3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00064683, 0, 0)
+polygon = PackedVector2Array(0.51, 0.09, 0.54, 0.09, 0.57, 0.05, 0.56, 0, 0.49, 0, 0.48, 0.05)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.3
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+smooth_faces = true
+material = ExtResource("1_qc7oo")
+
+[node name="TrackLeft" type="CSGPolygon3D" parent="Path3D"]
+polygon = PackedVector2Array(-0.52, 0, -0.53, 0.05, -0.5, 0.09, -0.47, 0.09, -0.44, 0.05, -0.45, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.3
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+smooth_faces = true
+material = ExtResource("1_qc7oo")
