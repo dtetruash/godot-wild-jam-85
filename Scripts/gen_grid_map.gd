@@ -154,8 +154,8 @@ func populate_biomes() -> void:
 		var q = cell.x
 		var r = cell.y
 		var world_loc = axial_to_world(q, r)
-		var x_coord = world_loc.x
-		var y_coord = world_loc.y
+		var x_coord = world_loc.x / hex_radius
+		var y_coord = world_loc.y / hex_radius
 		var val = (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
 		val = max(0.0, val)
 		# calculate fall off - we want an island shape, don't we? :)
