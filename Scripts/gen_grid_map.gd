@@ -1,3 +1,4 @@
+@tool
 extends GridMap
 
 ## Generates grid map terrain for the cozy train
@@ -5,16 +6,18 @@ extends GridMap
 ## Note that this grid map only generates basic terrain types
 ## Decorations will be added using a separate type.
 
-@export var num_cities: int = 6
+@export var num_cities: int = 15
 @export var island_height: int = 50
 @export var island_width: int = 50
-@export var city_min_dist = 5
+@export var city_min_dist = 3
 
 @export_group("Noise Config")
+@export var city_seed: int = 38
 @export var biome_seed: int = 38 # 38 is a good seed
 @export var biome_frequency: float = 0.05
 @export var island_shape_seed: int = 38 # 38 is a good seed
 @export var island_shape_frequency: float = 0.05
+@export var radial_noise_weight: float = 0.5
 
 # TODO: eventually, this should be an array of 
 # "City" data classes that contain other info about the city
@@ -45,6 +48,9 @@ func _init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# seed godot built in rng
+	seed(city_seed)
+	
 	# clear map
 	self.clear()
 	
@@ -76,7 +82,7 @@ func _ready() -> void:
 
 			var radius_change = radial_noise.get_noise_2d(float(j), float(i))
 			#print_debug("x, y: ", x_coord, " ", y_coord, "radius_change: ", radius_change)
-			if dist > (0.5 + 0.5 * radius_change) * map_radius:
+			if dist > (0.5 + radial_noise_weight * radius_change) * map_radius:
 				self.set_cell_item(Vector3i(x_coord, 0, y_coord), TileType.WaterTile, 0)
 				continue
 			
@@ -95,7 +101,6 @@ func _ready() -> void:
 		
 		var is_not_water = self.get_cell_item(Vector3i(candidate_city.x, 0, candidate_city.y)) != TileType.WaterTile
 		var is_not_too_close_to_existing_city = query_distance_to_cities(candidate_city) > city_min_dist
-		print_debug(query_distance_to_cities(candidate_city))
 		
 		# check to make sure that this is not water
 		if is_not_water and is_not_too_close_to_existing_city:
