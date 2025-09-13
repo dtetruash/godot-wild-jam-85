@@ -3,13 +3,19 @@
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://dhp3cmcf7klny" path="res://Scenes/TimeManager.tscn" id="2_uu6xs"]
 [ext_resource type="Script" uid="uid://mkq1p13i1l8f" path="res://Scripts/time_display.gd" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Map" parent="." instance=ExtResource("1_glv2v")]
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 37.0172, -0.00509453)
+[node name="CameraSystem" parent="." instance=ExtResource("1_uu6xs")]
+camera_mode = 0
+camera_angle = -40.0
+zoom_minimum = 1.0
+zoom_speed = 3.0
+pan_speed_coefficient = 0.01
+input_action_zoom_in = "camera_zoom_in"
+input_action_zoom_out = "camera_zoom_out"
+input_action_pan = "camera_pan"
 
 [node name="Node2D" parent="." instance=ExtResource("2_uu6xs")]
 
@@ -17,3 +23,4 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 37.
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("3_r0du0")
+[node name="Map" parent="." instance=ExtResource("1_glv2v")]

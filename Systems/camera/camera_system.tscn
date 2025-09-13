@@ -6,14 +6,16 @@
 
 [node name="CameraSystem" type="Node3D"]
 script = ExtResource("1_8v0ir")
-zoom_stops = [1.0, 3.0, 5.0, 10.0]
+camera_angle = -23.951
+
+[node name="FocusPointMarker" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CameraPivot" type="Node3D" parent="."]
-
-[node name="FocusPointMarker" type="Marker3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CameraArm" type="SpringArm3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("SphereShape3D_sl1xg")
 spring_length = 3.0
 
