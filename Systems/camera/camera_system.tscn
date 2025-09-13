@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6t4p5hw3tx7x"]
+
+[ext_resource type="Script" uid="uid://go2nqypund1w" path="res://Systems/camera/camera_system.gd" id="1_8v0ir"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sl1xg"]
+
+[node name="CameraSystem" type="Node3D"]
+script = ExtResource("1_8v0ir")
+camera_angle = -23.951
+
+[node name="FocusPointMarker" type="Marker3D" parent="."]
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="CameraArm" type="SpringArm3D" parent="CameraPivot"]
+shape = SubResource("SphereShape3D_sl1xg")
+spring_length = 3.0
+
+[node name="CameraMain" type="Camera3D" parent="CameraPivot/CameraArm"]
