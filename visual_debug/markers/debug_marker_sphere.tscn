@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://3o6ipqdte88r"]
+
+[ext_resource type="Script" uid="uid://cugwiobkmlcc1" path="res://visual_debug/debug_icon.gd" id="1_0gbgu"]
+[ext_resource type="Material" uid="uid://nsl1afjr5r76" path="res://visual_debug/debug_material.tres" id="1_rb4vh"]
+
+[node name="DebugMarkerSphere" type="Node3D"]
+script = ExtResource("1_0gbgu")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.1
+radial_segments = 10
+material = ExtResource("1_rb4vh")

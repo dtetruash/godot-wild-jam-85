@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://jx72y87c7ysq"]
+
+[node name="RailSegment" type="Node3D"]

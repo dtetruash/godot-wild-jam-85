@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxs63qipf1o8a"]
+
+[ext_resource type="Script" uid="uid://cugwiobkmlcc1" path="res://visual_debug/debug_icon.gd" id="1_cnpaw"]
+[ext_resource type="Material" uid="uid://nsl1afjr5r76" path="res://visual_debug/debug_material.tres" id="1_jjk5r"]
+
+[node name="DebugMarkerCone" type="Node3D"]
+script = ExtResource("1_cnpaw")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.80859e-08, -0.211583)
+radius = 0.15
+height = 0.5
+cone = true
+material = ExtResource("1_jjk5r")
