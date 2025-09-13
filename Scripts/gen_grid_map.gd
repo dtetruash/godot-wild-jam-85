@@ -7,11 +7,9 @@ extends Node3D
 
 @export var num_cities: int = 15
 @export var island_radius: int = 25
-@export var island_height: int = 50
-@export var island_width: int = 50
-@export var city_min_dist: int = 3
-@export var hex_radius: float = 1.0
-@export var radius_threshold: float = 0.8
+@export var city_min_dist: int = 3.0
+@export var hex_radius: float = 5.0
+@export var radius_threshold: float = 0.9
 
 @export_group("Noise Config")
 @export var city_seed: int = 38
@@ -19,7 +17,7 @@ extends Node3D
 @export var biome_frequency: float = 0.05
 @export var island_shape_seed: int = 38 # 38 is a good seed
 @export var island_shape_frequency: float = 0.05
-@export var radial_noise_weight: float = 0.5
+@export var radial_noise_weight: float = 0.7
 
 @onready var tile_mesh = preload("res://Scenes/Tilesv2.tscn")
 @onready var water_material = preload("res://Assets/Materials/Water.tres")
@@ -134,6 +132,7 @@ func generate_hexagon(radius: int) -> void:
 				cells[Vector2(q, r)] = null
 				
 func populate_biomes() -> void:
+	print_debug("threshold at build:", radius_threshold)
 	# Instantiate
 	var noise = FastNoiseLite.new()
 	# Configure
@@ -148,8 +147,6 @@ func populate_biomes() -> void:
 	radial_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	radial_noise.frequency = island_shape_frequency
 	
-	var map_radius = 0.5 * sqrt(island_height * island_height + island_width * island_width)
-	
 	for cell in self.cells.keys():
 		var q = cell.x
 		var r = cell.y
@@ -159,7 +156,8 @@ func populate_biomes() -> void:
 		var val = (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
 		val = max(0.0, val)
 		# calculate fall off - we want an island shape, don't we? :)
-		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord)) / hex_radius
+		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord))
+		
 		var radius_change = radial_noise.get_noise_2d(float(x_coord), float(y_coord))
 
 		var tile_type = TileType.WaterTile
@@ -172,8 +170,9 @@ func populate_biomes() -> void:
 			tile_type = TileType.ForestTile
 		if val >= 0.6:
 			tile_type = TileType.MountainTile
-			
-		if dist > (radius_threshold + radial_noise_weight * radius_change) * island_radius:
+		var threshold = (radius_threshold + (radial_noise_weight * radius_change)) * island_radius;
+		#print_debug("threshold: ", threshold, " radius_threshold: ", radius_threshold, " radius_noise_weight", radial_noise_weight )
+		if dist > threshold:
 			tile_type = TileType.WaterTile
 			
 		var cell_data = {
@@ -198,6 +197,9 @@ func _init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# clear
+	self.cells.clear()
+	
 	# seed godot built in rng
 	seed(city_seed)
 	
