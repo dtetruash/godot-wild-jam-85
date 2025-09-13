@@ -2,12 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0dp33m3r8urf"
+uid="uid://dwnhugun28kxu"
 valid=false
 
 [deps]
 
-source_file="res://icon_wildling.png"
+source_file="res://Assets/Textures/grass_02_1k/grass_02_normal_gl_1k.png"
 
 [params]
 

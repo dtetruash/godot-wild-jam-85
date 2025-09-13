@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmdynhpbx7mhh"]
+
+[ext_resource type="PackedScene" uid="uid://nmychuxcvw4m" path="res://Assets/Models/Tiles/tile2.glb" id="1_xq8bo"]
+[ext_resource type="Material" uid="uid://bf4c8ypkyma7r" path="res://Assets/Materials/Water.tres" id="2_cs7wk"]
+
+[node name="tile2" instance=ExtResource("1_xq8bo")]
+
+[node name="Cylinder" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_cs7wk")
