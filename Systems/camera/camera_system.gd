@@ -33,7 +33,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
     if camera_arm.spring_length != target_zoom_stop:
-            camera_arm.spring_length = lerp(camera_arm.spring_length, target_zoom_stop, delta * zoom_speed)
+        _move_camera_arm(delta)
 
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed(input_action_zoom_in):
@@ -41,6 +41,10 @@ func _input(event: InputEvent) -> void:
 
     if event.is_action_pressed(input_action_zoom_out):
         _zoom_out()
+
+# Move the camera arm with easing
+func _move_camera_arm(delta: float):
+    camera_arm.spring_length = lerp(camera_arm.spring_length, target_zoom_stop, delta * zoom_speed)
 
 func _zoom_in():
     if current_zoom_stop_index == 0:
