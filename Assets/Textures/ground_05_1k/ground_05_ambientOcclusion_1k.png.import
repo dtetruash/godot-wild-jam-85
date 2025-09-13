@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mdah1kd3fqv6"
-path="res://.godot/imported/ground_05_ambientOcclusion_1k.png-b718e201c9dcbfa2e161a27048fe2c03.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://Assets/Textures/ground_05_1k/ground_05_ambientOcclusion_1k.png"
-dest_files=["res://.godot/imported/ground_05_ambientOcclusion_1k.png-b718e201c9dcbfa2e161a27048fe2c03.ctex"]
 
 [params]
 

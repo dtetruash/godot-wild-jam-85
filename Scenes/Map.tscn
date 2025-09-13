@@ -7,5 +7,3 @@ script = ExtResource("2_7yn8b")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.672509, 0.740089, 0, -0.740089, 0.672509, 0, 25.0013, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
