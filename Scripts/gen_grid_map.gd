@@ -1,4 +1,4 @@
-@tool
+
 extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
@@ -104,8 +104,8 @@ func get_cities() -> Array:
 func query_distance_to_cities(q: Vector2) -> float:
 	var cities_arr = self.get_cities()
 	if cities_arr.size() == 0:
-		return 1000.0
-	var min_dist = 100000.0 # some large value
+		return 1e10;
+	var min_dist = 1e10; # some large value
 	for city in cities_arr:
 		var dist = (city - q).length()
 		if min_dist > dist:
@@ -159,7 +159,7 @@ func populate_biomes() -> void:
 		var val = (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
 		val = max(0.0, val)
 		# calculate fall off - we want an island shape, don't we? :)
-		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord))
+		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord)) / hex_radius
 		var radius_change = radial_noise.get_noise_2d(float(x_coord), float(y_coord))
 
 		var tile_type = TileType.WaterTile
@@ -187,7 +187,8 @@ func populate_cities() -> void:
 		var loc: Vector2 = self.cells.keys()[indx]
 		
 		var is_not_water: bool = self.cells[loc]['type'] != TileType.WaterTile
-		var is_not_too_to_close_to_other_cities = self.query_distance_to_cities(loc) > self.city_min_dist
+		var closest_city_dist: float = self.query_distance_to_cities(loc)
+		var is_not_too_to_close_to_other_cities = closest_city_dist > self.city_min_dist
 		
 		if is_not_water and is_not_too_to_close_to_other_cities:
 			self.cells[loc]['type'] = TileType.CityTile
