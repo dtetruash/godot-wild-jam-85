@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqqi65x2t0vdg"
-path="res://.godot/imported/ground_05_height_1k.png-02c9fbfd0fb0204e11f887f0f40a2da3.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://Assets/Textures/ground_05_1k/ground_05_height_1k.png"
-dest_files=["res://.godot/imported/ground_05_height_1k.png-02c9fbfd0fb0204e11f887f0f40a2da3.ctex"]
 
 [params]
 
