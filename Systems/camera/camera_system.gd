@@ -14,10 +14,10 @@ enum CameraMode {
 @export var camera_mode : CameraMode = CameraMode.Overview
 
 @export_group("Angle Properties")
-@export_range(-85.0, -10.0) var camera_angle := -40.0:
+@export_range(-85.0, -10.0) var camera_angle: float = -40.0:
     set(value):
         camera_angle = clampf(value, -40.0, -15.0)
-@export_range(5, 360) var algular_speed := 5
+@export_range(5, 360) var angular_speed: float = 5
 
 @export_group("Zoom Properties", "zoom")
 ## Distances from the focus point that the camera will stop at after each zoom input.
@@ -33,8 +33,8 @@ var target_zoom_stop: float = zoom_stops[current_zoom_stop_index]:
 @export var zoom_speed: float = 3.0
 
 @export_group("Pan Properties", "pan")
-@export var pan_speed_coefficient := 0.01
-var _is_panning := false
+@export var pan_speed_coefficient: float = 0.01
+var _is_panning: bool = false
 
 @export_group("Input Actions", "input_action")
 @export var input_action_zoom_in: String = "camera_zoom_in"
@@ -75,7 +75,7 @@ func _vary_camera_arm_length(delta: float):
     camera_arm.spring_length = lerp(camera_arm.spring_length, target_zoom_stop, delta * zoom_speed)
 
 func _angle_camera_arm(delta: float):
-    camera_pivot.rotation_degrees.x = lerp(camera_pivot.rotation_degrees.x, camera_angle, delta * algular_speed)
+    camera_pivot.rotation_degrees.x = lerp(camera_pivot.rotation_degrees.x, camera_angle, delta * angular_speed)
 
 func _zoom_in():
     current_zoom_stop_index = max(current_zoom_stop_index - 1, 0)
