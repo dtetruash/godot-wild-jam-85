@@ -11,12 +11,17 @@ config_version=5
 [application]
 
 config/name="Wild Jam 85"
+run/main_scene="uid://cmsgcif2xhq4q"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="uid://b0dp33m3r8urf"
 
 [dotnet]
 
 project/assembly_name="Wild Jam 85"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [physics]
 

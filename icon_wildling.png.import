@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0dp33m3r8urf"
-path="res://.godot/imported/icon_wildling.png-21a11973d9aa189f248eb39b0443ffee.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://icon_wildling.png"
-dest_files=["res://.godot/imported/icon_wildling.png-21a11973d9aa189f248eb39b0443ffee.ctex"]
 
 [params]
 

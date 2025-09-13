@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnhwff0g6xxw6"]
+
+[ext_resource type="MeshLibrary" uid="uid://dnren1uodluyt" path="res://Tilesv1.tres" id="1_s486e"]
+[ext_resource type="Script" uid="uid://ht0t3xxbmvvi" path="res://Scripts/gen_grid_map.gd" id="2_7yn8b"]
+
+[node name="Map" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_s486e")
+cell_size = Vector3(1, 0.25, 1)
+script = ExtResource("2_7yn8b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.672509, 0.740089, 0, -0.740089, 0.672509, 0, 25.0013, 0)
