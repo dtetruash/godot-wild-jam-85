@@ -1,15 +1,17 @@
 @tool
-extends GridMap
-
+extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
 ## Note that this grid map only generates basic terrain types
 ## Decorations will be added using a separate type.
 
 @export var num_cities: int = 15
+@export var island_radius: int = 25
 @export var island_height: int = 50
 @export var island_width: int = 50
-@export var city_min_dist = 3
+@export var city_min_dist: int = 3
+@export var hex_radius: float = 1.0
+@export var radius_threshold: float = 0.8
 
 @export_group("Noise Config")
 @export var city_seed: int = 38
@@ -19,11 +21,16 @@ extends GridMap
 @export var island_shape_frequency: float = 0.05
 @export var radial_noise_weight: float = 0.5
 
+var tile_mesh = preload("res://Scenes/Tilesv2.tscn")
+var water_material = preload("res://Assets/Materials/Water.tres")
+var grass_material = preload("res://Assets/Materials/Grass.tres")
+var forest_material = preload("res://Assets/Materials/Forest.tres")
+
 # TODO: eventually, this should be an array of 
 # "City" data classes that contain other info about the city
 # ie name, location, population (if we care), etc.
-@onready var cities_arr: Array[Vector2i] = []
 
+@onready var cells := {}
 
 enum TileType {
 	WaterTile,
@@ -33,7 +40,67 @@ enum TileType {
 	MountainTile,
 }
 
+##
+## Cells have the following information
+## Cell {
+##	axial_coordinates: Vector2(p, r)
+## 	type: TileType,
+## }
+##
+
+func _cube_round(frac: Vector3) -> Vector3:
+	var q = round(frac.x)
+	var r = round(frac.z)
+	var s = round(frac.y)
+
+	var q_diff = abs(q - frac.x)
+	var r_diff = abs(r - frac.z)
+	var s_diff = abs(s - frac.y)
+
+	if q_diff > r_diff and q_diff > s_diff:
+		q = -r - s
+	elif r_diff > s_diff:
+		r = -q - s
+	else:
+		s = -q - r
+	return Vector3(q, s, r)
+	
+func for_each_cell(callback: Callable) -> void:
+	for key in cells.keys():
+		callback.call(key, cells[key])
+
+func axial_to_world(q: int, r: int) -> Vector2:
+	var y = hex_radius * (3.0/2.0 * q)
+	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
+	return Vector2(x, y)
+
+func world_to_axial(pos: Vector2) -> Vector2:
+	var q = (2.0/3.0 * pos.x) / hex_radius
+	var r = (-1.0/3.0 * pos.x + sqrt(3.0)/3.0 * pos.y) / hex_radius
+	var v = _cube_round(Vector3(q, -q-r, r))
+	return Vector2(v.x, v.z)
+	
+func neighbors(q: int, r: int) -> Array:
+	var dirs = [
+		Vector2(1, 0), Vector2(1, -1), Vector2(0, -1),
+		Vector2(-1, 0), Vector2(-1, 1), Vector2(0, 1)
+	]
+	var results = []
+	for d in dirs:
+		var n = Vector2(q + d.x, r + d.y)
+		if n in cells:
+			results.append(n)
+	return results
+	
+func get_cities() -> Array:
+	var ret = []
+	for cell in cells:
+		if cell['type'] == TileType.CityTile:
+			ret.append(cell)
+	return ret
+
 func query_distance_to_cities(q: Vector2i) -> float:
+	var cities_arr = self.get_cities()
 	if cities_arr.size() == 0:
 		return 1000.0
 	var min_dist = 100000.0 # some large value
@@ -42,18 +109,29 @@ func query_distance_to_cities(q: Vector2i) -> float:
 		if min_dist > dist:
 			min_dist = dist
 	return min_dist
-
-func _init() -> void:
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	# seed godot built in rng
-	seed(city_seed)
 	
-	# clear map
-	self.clear()
-	
+func get_cell(q: int, r: int) -> Variant:
+	var key = Vector2(q, r)
+	if key in cells:
+		return cells[key]
+	return null  # or some default like "empty"
+
+func set_cell(q: int, r: int, value: Variant) -> void:
+	var key = Vector2(q, r)
+	if key in cells:
+		cells[key] = value
+	else:
+		push_warning("Tried to set cell out of bounds at (%d, %d)" % [q, r])
+		
+func generate_hexagon(radius: int) -> void:
+	cells.clear()
+	for q in range(-radius, radius + 1):
+		for r in range(-radius, radius + 1):
+			var s = -q - r
+			if abs(s) <= radius:
+				cells[Vector2(q, r)] = null
+				
+func populate_biomes() -> void:
 	# Instantiate
 	var noise = FastNoiseLite.new()
 	# Configure
@@ -70,45 +148,63 @@ func _ready() -> void:
 	
 	var map_radius = 0.5 * sqrt(island_height * island_height + island_width * island_width)
 	
-	for i in island_height:
-		for j in island_width:
-			var x_coord = j - (island_width / 2)
-			var y_coord = i - (island_height / 2)
-			var val = 0.5 * (noise.get_noise_2d(float(j), float(i)) + 1.0) # normalize to (0,1)
-			
-			# calculate fall off - we want an island shape, don't we? :)
-			var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord))
-			
+	for cell in self.cells.keys():
+		var q = cell.x
+		var r = cell.y
+		var world_loc = axial_to_world(q, r)
+		var x_coord = world_loc.x
+		var y_coord = world_loc.y
+		var val = 0.5 * (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
+		
+		# calculate fall off - we want an island shape, don't we? :)
+		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord))
+		var radius_change = radial_noise.get_noise_2d(float(x_coord), float(y_coord))
 
-			var radius_change = radial_noise.get_noise_2d(float(j), float(i))
-			#print_debug("x, y: ", x_coord, " ", y_coord, "radius_change: ", radius_change)
-			if dist > (0.5 + radial_noise_weight * radius_change) * map_radius:
-				self.set_cell_item(Vector3i(x_coord, 0, y_coord), TileType.WaterTile, 0)
-				continue
-			
-			if val < 0.1:
-				self.set_cell_item(Vector3i(x_coord, 0, y_coord), TileType.WaterTile, 0)
-			if val >= 0.1 and val < 0.2:
-				self.set_cell_item(Vector3i(x_coord, 0, y_coord), TileType.GrassTile, 0)
-			if val >= 0.2:
-				self.set_cell_item(Vector3i(x_coord, 0, y_coord), TileType.ForestTile, 0)
-				
-	# OK now we place cities:	
-	while cities_arr.size() < num_cities:
-		var x = randi() % island_width - (island_width / 2)
-		var y = randi() % island_height - (island_height / 2)
-		var candidate_city = Vector2i(x, y)
+		var tile_type = TileType.WaterTile
 		
-		var is_not_water = self.get_cell_item(Vector3i(candidate_city.x, 0, candidate_city.y)) != TileType.WaterTile
-		var is_not_too_close_to_existing_city = query_distance_to_cities(candidate_city) > city_min_dist
 		
-		# check to make sure that this is not water
-		if is_not_water and is_not_too_close_to_existing_city:
-			cities_arr.append(candidate_city)
+		if val < 0.1:
+			tile_type = TileType.WaterTile
+		if val >= 0.1 and val < 0.2:
+			tile_type = TileType.GrassTile
+		if val >= 0.2:
+			tile_type = TileType.ForestTile
 			
-	# now we place city tiles
-	for city in cities_arr:
-		self.set_cell_item(Vector3i(city.x, 0, city.y), TileType.CityTile, 0)
+		if dist > (radius_threshold + radial_noise_weight * radius_change) * island_radius:
+			tile_type = TileType.WaterTile
+			
+		var cell_data = {
+			'type': tile_type
+		}
+		self.cells[Vector2(q, r)] = cell_data
+
+
+func _init() -> void:
+	pass
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	# seed godot built in rng
+	seed(city_seed)
+	
+	self.generate_hexagon(island_radius)
+	self.populate_biomes()
+	# finally, we instantiate meshes
+	for cell in self.cells.keys():
+		var world_pos_2d = axial_to_world(cell.x, cell.y)
+		
+		# create the new tile
+		var new_tile = tile_mesh.instantiate()
+		match self.cells[cell]['type']:
+			TileType.WaterTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, water_material)
+			TileType.ForestTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
+			TileType.GrassTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, grass_material)
+		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
+		self.add_child(new_tile)
+	
 	
 	
 	

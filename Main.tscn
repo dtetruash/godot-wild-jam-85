@@ -7,6 +7,8 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Map" parent="." instance=ExtResource("1_glv2v")]
+radius_threshold = 0.9
+island_shape_frequency = 0.1
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 37.0172, -0.00509453)
