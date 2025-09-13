@@ -3,7 +3,7 @@
 [node name="RailSegment" type="Node3D"]
 
 [ext_resource type="Script" uid="uid://d0ad6bibyrsdr" path="res://Rails/rail_setment/rail_segment.gd" id="1_3o5ql"]
-[ext_resource type="Material" path="res://Rails/rail_setment/material_rail_metail.material" id="1_qc7oo"]
+[ext_resource type="Material" uid="uid://dw0olshq03fku" path="res://Rails/rail_setment/material_rail_metail.material" id="2_iwxy6"]
 [ext_resource type="Material" uid="uid://do8ld3roe8lfl" path="res://Rails/rail_setment/rail_wood.material" id="3_iwxy6"]
 
 [sub_resource type="Curve3D" id="Curve3D_m6w3m"]
@@ -45,7 +45,7 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 smooth_faces = true
-material = ExtResource("1_qc7oo")
+material = ExtResource("2_iwxy6")
 
 [node name="TrackLeft" type="CSGPolygon3D" parent="Path3D"]
 polygon = PackedVector2Array(-0.52, 0, -0.53, 0.05, -0.5, 0.09, -0.47, 0.09, -0.44, 0.05, -0.45, 0)
@@ -61,7 +61,7 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 smooth_faces = true
-material = ExtResource("1_qc7oo")
+material = ExtResource("2_iwxy6")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="Path3D"]
 multimesh = SubResource("MultiMesh_3o5ql")
