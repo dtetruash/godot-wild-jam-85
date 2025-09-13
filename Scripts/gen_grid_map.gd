@@ -21,10 +21,10 @@ extends Node3D
 @export var island_shape_frequency: float = 0.05
 @export var radial_noise_weight: float = 0.5
 
-var tile_mesh = preload("res://Scenes/Tilesv2.tscn")
-var water_material = preload("res://Assets/Materials/Water.tres")
-var grass_material = preload("res://Assets/Materials/Grass.tres")
-var forest_material = preload("res://Assets/Materials/Forest.tres")
+@onready var tile_mesh = preload("res://Scenes/Tilesv2.tscn")
+@onready var water_material = preload("res://Assets/Materials/Water.tres")
+@onready var grass_material = preload("res://Assets/Materials/Grass.tres")
+@onready var forest_material = preload("res://Assets/Materials/Forest.tres")
 
 # TODO: eventually, this should be an array of 
 # "City" data classes that contain other info about the city
