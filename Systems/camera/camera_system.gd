@@ -56,11 +56,6 @@ func _process(delta: float) -> void:
         _angle_camera_arm(delta)
 
 func _input(event: InputEvent) -> void:
-
-    print("zoom idx: " + str(current_zoom_stop_index))
-    print("zoom stop: " + str(target_zoom_stop))
-    print("cam ang.: " + str(camera_angle))
-
     if event.is_action_pressed(input_action_zoom_in):
         _zoom_in()
 
