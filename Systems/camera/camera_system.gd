@@ -29,7 +29,7 @@ var target_zoom_stop: float = zoom_stops[current_zoom_stop_index]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-    _assert_zoom_stops_sorted()
+    zoom_stops.sort()
 
 func _process(delta: float) -> void:
     if camera_arm.spring_length != target_zoom_stop:
@@ -53,10 +53,3 @@ func _zoom_out():
         return
     current_zoom_stop_index += 1
     target_zoom_stop = zoom_stops[current_zoom_stop_index]
-
-func _assert_zoom_stops_sorted():
-    var zoom_stops_are_sorted = func() -> bool:
-        var sorted_zoom_stops = zoom_stops.duplicate()
-        sorted_zoom_stops.sort()
-        return zoom_stops == sorted_zoom_stops
-    assert(zoom_stops_are_sorted, "Zoom stops must be sorted in ascending order.")
