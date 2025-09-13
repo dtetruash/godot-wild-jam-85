@@ -1,4 +1,4 @@
-@tool
+
 extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
@@ -25,6 +25,8 @@ extends Node3D
 @onready var water_material = preload("res://Assets/Materials/Water.tres")
 @onready var grass_material = preload("res://Assets/Materials/Grass.tres")
 @onready var forest_material = preload("res://Assets/Materials/Forest.tres")
+@onready var mountain_material = preload("res://Assets/Materials/Mountain.tres")
+@onready var city_material = preload("res://Assets/Materials/City.tres")
 
 # TODO: eventually, this should be an array of 
 # "City" data classes that contain other info about the city
@@ -95,15 +97,15 @@ func neighbors(q: int, r: int) -> Array:
 func get_cities() -> Array:
 	var ret = []
 	for cell in cells:
-		if cell['type'] == TileType.CityTile:
+		if self.cells[cell]['type'] == TileType.CityTile:
 			ret.append(cell)
 	return ret
 
-func query_distance_to_cities(q: Vector2i) -> float:
+func query_distance_to_cities(q: Vector2) -> float:
 	var cities_arr = self.get_cities()
 	if cities_arr.size() == 0:
-		return 1000.0
-	var min_dist = 100000.0 # some large value
+		return 1e10;
+	var min_dist = 1e10; # some large value
 	for city in cities_arr:
 		var dist = (city - q).length()
 		if min_dist > dist:
@@ -152,23 +154,24 @@ func populate_biomes() -> void:
 		var q = cell.x
 		var r = cell.y
 		var world_loc = axial_to_world(q, r)
-		var x_coord = world_loc.x
-		var y_coord = world_loc.y
-		var val = 0.5 * (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
-		
+		var x_coord = world_loc.x / hex_radius
+		var y_coord = world_loc.y / hex_radius
+		var val = (noise.get_noise_2d(float(x_coord), float(y_coord)) + 1.0) # normalize to (0,1)
+		val = max(0.0, val)
 		# calculate fall off - we want an island shape, don't we? :)
-		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord))
+		var dist = sqrt((x_coord * x_coord) + (y_coord * y_coord)) / hex_radius
 		var radius_change = radial_noise.get_noise_2d(float(x_coord), float(y_coord))
 
 		var tile_type = TileType.WaterTile
 		
-		
 		if val < 0.1:
 			tile_type = TileType.WaterTile
-		if val >= 0.1 and val < 0.2:
+		if val >= 0.1 and val < 0.4:
 			tile_type = TileType.GrassTile
-		if val >= 0.2:
+		if val >= 0.4 and val < 0.6:
 			tile_type = TileType.ForestTile
+		if val >= 0.6:
+			tile_type = TileType.MountainTile
 			
 		if dist > (radius_threshold + radial_noise_weight * radius_change) * island_radius:
 			tile_type = TileType.WaterTile
@@ -178,6 +181,17 @@ func populate_biomes() -> void:
 		}
 		self.cells[Vector2(q, r)] = cell_data
 
+func populate_cities() -> void:
+	while self.get_cities().size() < self.num_cities:
+		var indx = randi() % self.cells.keys().size()
+		var loc: Vector2 = self.cells.keys()[indx]
+		
+		var is_not_water: bool = self.cells[loc]['type'] != TileType.WaterTile
+		var closest_city_dist: float = self.query_distance_to_cities(loc)
+		var is_not_too_to_close_to_other_cities = closest_city_dist > self.city_min_dist
+		
+		if is_not_water and is_not_too_to_close_to_other_cities:
+			self.cells[loc]['type'] = TileType.CityTile
 
 func _init() -> void:
 	pass
@@ -189,6 +203,7 @@ func _ready() -> void:
 	
 	self.generate_hexagon(island_radius)
 	self.populate_biomes()
+	self.populate_cities()
 	# finally, we instantiate meshes
 	for cell in self.cells.keys():
 		var world_pos_2d = axial_to_world(cell.x, cell.y)
@@ -202,6 +217,10 @@ func _ready() -> void:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
 			TileType.GrassTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, grass_material)
+			TileType.MountainTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, mountain_material)
+			TileType.CityTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, city_material)
 		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
 		self.add_child(new_tile)
 	

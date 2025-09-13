@@ -1,0 +1,7 @@
+[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://b4xfojdcnb6rs"]
+
+[sub_resource type="Gradient" id="Gradient_eepes"]
+colors = PackedColorArray(0, 0.421586, 0.254914, 1, 0, 0.813401, 0.463581, 1)
+
+[resource]
+color_ramp = SubResource("Gradient_eepes")

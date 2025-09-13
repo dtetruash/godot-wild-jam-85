@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dk1lfgyk4s1bn"
-path="res://.godot/imported/grass_02_amibent_occlusion_1k.png-d35f496f43c1de3e5b5d0b45c98249c4.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://Assets/Textures/grass_02_1k/grass_02_amibent_occlusion_1k.png"
-dest_files=["res://.godot/imported/grass_02_amibent_occlusion_1k.png-d35f496f43c1de3e5b5d0b45c98249c4.ctex"]
 
 [params]
 
