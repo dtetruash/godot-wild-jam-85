@@ -39,7 +39,7 @@ signal map_generated
 # ie name, location, population (if we care), etc.
 
 @onready var cells := {}
-@onready var towns_centers: Array[Vector2] = []
+@onready var towns_centers: Array[Vector2i] = []
 
 enum TileType {
 	WaterTile,
@@ -80,33 +80,33 @@ func for_each_cell(callback: Callable) -> void:
 		callback.call(key, cells[key])
 
 # use this function if you do not care about height
-func axial_to_world(q: int, r: int) -> Vector2:
+func axial_to_world(q: int, r: int) -> Vector2i:
 	var y = hex_radius * (3.0/2.0 * q)
 	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
-	return Vector2(x, y)
+	return Vector2i(x, y)
 	
 # use this function to get a 3d world position
 func axial_to_world_3d(q: int, r: int) -> Vector3:
-	var height = self.cells[Vector2(q, r)]['height']
+	var height = self.cells[Vector2i(q, r)]['height']
 	var y = hex_radius * (3.0/2.0 * q)
 	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
 	
 	return Vector3(x, height, y)
 
-func world_to_axial(pos: Vector2) -> Vector2:
+func world_to_axial(pos: Vector2) -> Vector2i:
 	var q = (2.0/3.0 * pos.y) / hex_radius
 	var r = (-1.0/3.0 * pos.y + sqrt(3.0)/3.0 * pos.x) / hex_radius
 	var v = _cube_round(Vector3(q, -q-r, r))
-	return Vector2(v.x, v.z)
+	return Vector2i(v.x, v.z)
 	
-func neighbors(q: int, r: int) -> Array:
+func neighbors(q: int, r: int) -> Array[Vector2i]:
 	var dirs = [
-		Vector2(1, 0), Vector2(1, -1), Vector2(0, -1),
-		Vector2(-1, 0), Vector2(-1, 1), Vector2(0, 1)
+		Vector2i(1, 0), Vector2i(1, -1), Vector2i(0, -1),
+		Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, 1)
 	]
-	var results = []
+	var results: Array[Vector2i] = []
 	for d in dirs:
-		var n = Vector2(q + d.x, r + d.y)
+		var n = Vector2i(q + d.x, r + d.y)
 		if n in cells:
 			results.append(n)
 	return results
@@ -115,7 +115,7 @@ func get_town_centers() -> Array:
 	return self.towns_centers
 
 # returns distance to another city in axial units
-func query_distance_to_cities(q: Vector2) -> float:
+func query_distance_to_cities(q: Vector2i) -> float:
 	var cities_arr = self.get_town_centers()
 	if cities_arr.size() == 0:
 		return 1e10;
@@ -127,13 +127,13 @@ func query_distance_to_cities(q: Vector2) -> float:
 	return min_dist
 	
 func get_cell(q: int, r: int) -> Variant:
-	var key = Vector2(q, r)
+	var key = Vector2i(q, r)
 	if key in cells:
 		return cells[key]
 	return null  # or some default like "empty"
 
 func set_cell(q: int, r: int, value: Variant) -> void:
-	var key = Vector2(q, r)
+	var key = Vector2i(q, r)
 	if key in cells:
 		cells[key] = value
 	else:
@@ -145,7 +145,7 @@ func generate_hexagon(radius: int) -> void:
 		for r in range(-radius, radius + 1):
 			var s = -q - r
 			if abs(s) <= radius:
-				cells[Vector2(q, r)] = null
+				cells[Vector2i(q, r)] = null
 				
 func populate_biomes() -> void:
 	# Instantiate
@@ -199,12 +199,12 @@ func populate_biomes() -> void:
 			'height_scale': height_scale,
 			'height':  self.base_tile_height * height_scale
 		}
-		self.cells[Vector2(q, r)] = cell_data
+		self.cells[Vector2i(q, r)] = cell_data
 
 func initialize_town_centers() -> void:
 	while self.get_town_centers().size() < self.num_towns:
 		var indx = randi() % self.cells.keys().size()
-		var loc: Vector2 = self.cells.keys()[indx]
+		var loc: Vector2i = self.cells.keys()[indx]
 		
 		var is_not_water: bool = self.cells[loc]['type'] != TileType.WaterTile
 		var closest_city_dist: float = self.query_distance_to_cities(loc)

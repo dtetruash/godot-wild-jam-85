@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnhwff0g6xxw6"]
+[gd_scene load_steps=5 format=3 uid="uid://cnhwff0g6xxw6"]
 
 [ext_resource type="Script" uid="uid://ht0t3xxbmvvi" path="res://Scripts/gen_grid_map.gd" id="2_7yn8b"]
 [ext_resource type="Script" uid="uid://cj242g3jmvvbr" path="res://Systems/decorations/decorations_manager.gd" id="2_etk83"]
 [ext_resource type="Script" uid="uid://dyawowmn180js" path="res://Systems/town_management/town_manager.gd" id="3_etk83"]
+[ext_resource type="Script" uid="uid://dhx2r23nyml37" path="res://Systems/pathfinder/path_finder.gd" id="4_qumfl"]
 
 [node name="Map" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.672509, 0.740089, 0, -0.740089, 0.672509, 0, 25.0013, 0)
+shadow_enabled = true
 
 [node name="MapManager" type="Node3D" parent="."]
 script = ExtResource("2_7yn8b")
@@ -17,3 +19,6 @@ script = ExtResource("2_etk83")
 
 [node name="TownManager" type="Node3D" parent="MapManager"]
 script = ExtResource("3_etk83")
+
+[node name="PathFinder" type="Node3D" parent="MapManager"]
+script = ExtResource("4_qumfl")
