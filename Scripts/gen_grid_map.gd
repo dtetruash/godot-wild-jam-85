@@ -80,10 +80,10 @@ func for_each_cell(callback: Callable) -> void:
 		callback.call(key, cells[key])
 
 # use this function if you do not care about height
-func axial_to_world(q: int, r: int) -> Vector2i:
+func axial_to_world(q: int, r: int) -> Vector2:
 	var y = hex_radius * (3.0/2.0 * q)
 	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
-	return Vector2i(x, y)
+	return Vector2(x, y)
 	
 # use this function to get a 3d world position
 func axial_to_world_3d(q: int, r: int) -> Vector3:

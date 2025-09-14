@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dhp3cmcf7klny" path="res://Scenes/TimeManager.tscn" id="2_uu6xs"]
 [ext_resource type="Script" uid="uid://mkq1p13i1l8f" path="res://Scripts/time_display.gd" id="3_r0du0"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Root" type="Node3D"]
 
 [node name="Map" parent="." instance=ExtResource("1_glv2v")]
 
