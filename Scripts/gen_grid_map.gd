@@ -39,6 +39,7 @@ signal map_generated
 # ie name, location, population (if we care), etc.
 
 @onready var cells := {}
+@onready var towns_centers: Array[Vector2] = []
 
 enum TileType {
 	WaterTile,
@@ -110,16 +111,12 @@ func neighbors(q: int, r: int) -> Array:
 			results.append(n)
 	return results
 	
-func get_towns() -> Array:
-	var ret = []
-	for cell in cells:
-		if self.cells[cell]['type'] == TileType.TownTile:
-			ret.append(cell)
-	return ret
+func get_town_centers() -> Array:
+	return self.towns_centers
 
 # returns distance to another city in axial units
 func query_distance_to_cities(q: Vector2) -> float:
-	var cities_arr = self.get_towns()
+	var cities_arr = self.get_town_centers()
 	if cities_arr.size() == 0:
 		return 1e10;
 	var min_dist = 1e10; # some large value
@@ -196,15 +193,16 @@ func populate_biomes() -> void:
 		var height_scale = height_factor * tile_height
 		if tile_type == TileType.MountainTile:
 			height_scale *= mountain_height_multiplier
-		
+		height_scale = 1.0 + height_scale
 		var cell_data = {
 			'type': tile_type,
-			'height_scale': height_scale
+			'height_scale': height_scale,
+			'height':  self.base_tile_height * height_scale
 		}
 		self.cells[Vector2(q, r)] = cell_data
 
-func initialize_cities() -> void:
-	while self.get_towns().size() < self.num_towns:
+func initialize_town_centers() -> void:
+	while self.get_town_centers().size() < self.num_towns:
 		var indx = randi() % self.cells.keys().size()
 		var loc: Vector2 = self.cells.keys()[indx]
 		
@@ -214,6 +212,7 @@ func initialize_cities() -> void:
 		
 		if is_not_water and is_not_too_to_close_to_other_cities:
 			self.cells[loc]['type'] = TileType.TownTile
+			self.towns_centers.append(loc)
 			
 func create_map() -> void:
 	for cell in self.cells.keys():
@@ -234,8 +233,7 @@ func create_map() -> void:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, town_material)
 				
 		# apply transforms
-		var height_scale = 1.0 + self.cells[cell]['height_scale']
-		self.cells[cell]['height'] = self.base_tile_height * height_scale
+		var height_scale = self.cells[cell]['height_scale']
 		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
 		new_tile.transform = new_tile.transform.scaled_local(Vector3(1.0, height_scale, 1.0))
 		self.add_child(new_tile)
@@ -253,7 +251,12 @@ func _ready() -> void:
 	
 	self.generate_hexagon(island_radius)
 	self.populate_biomes()
-	self.initialize_cities()
+	
+	# create and populate towns
+	self.initialize_town_centers()
+	var town_manager = self.find_child("TownManager")
+	town_manager.initialize_town_data(self.towns_centers)
+	
 	# finally, we instantiate meshes
 	self.create_map()
 	
