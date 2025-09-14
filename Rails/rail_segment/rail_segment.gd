@@ -1,11 +1,12 @@
 @tool
-extends Node3D
+class_name RailSegment extends Node3D
 
 @export_range(0.3, 1.0) var plank_interval : float = 0.25:
 	set(value):
 		_regenerate_multimesh()
 		plank_interval = clampf(value, 0.3, 1.0)
 
+## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
 
 @onready var segment_path: Path3D = $SegmentPath
@@ -15,28 +16,36 @@ var is_mesh_dirty: bool = false
 func _ready() -> void:
 	_set_curve_points_from_guide()
 
-func _set_curve_points_from_guide():
+## Set the world points of the segment's path and recompute it's mesh
+func set_segment_points(world_points: Array[Vector3]) -> void:
+	if not segment_path:
+		push_error("Tried setting rail segment world_points without a Path.")
+		return
+
 	var segment_curve := segment_path.curve
-	var point_count: int  = path_guide.get_child_count()
+	var point_count := world_points.size()
 
 	segment_curve.clear_points()
 
 	for point_idx in range(0, point_count):
-		var guide: Node3D = path_guide.get_child(point_idx)
-		segment_curve.add_point(guide.global_position)
+		segment_curve.add_point(world_points[point_idx])
 
-	CurveSmoothing.smooth(segment_path.curve)
+	CurveSmoothing.smooth(segment_curve)
 
+func _set_curve_points_from_guide() -> void:
+	if not path_guide:
+		return
+
+	var world_points: Array[Vector3]
+	for guide in path_guide.get_children():
+		world_points.append(guide.global_position)
+
+	self.set_segment_points(world_points)
 
 func _process(_delta: float) -> void:
 	if is_mesh_dirty:
 		_regenerate_multimesh()
 		is_mesh_dirty = false
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
-			_set_curve_points_from_guide()
 
 func  _regenerate_multimesh():
 	if segment_path == null:

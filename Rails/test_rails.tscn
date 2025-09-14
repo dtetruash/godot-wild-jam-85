@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://gf2csfnijyho"]
 
-[ext_resource type="PackedScene" uid="uid://jx72y87c7ysq" path="res://Rails/rail_setment/rail_segment.tscn" id="1_78y8h"]
+[ext_resource type="PackedScene" uid="uid://jx72y87c7ysq" path="res://Rails/rail_segment/rail_segment.tscn" id="1_78y8h"]
 [ext_resource type="PackedScene" uid="uid://3o6ipqdte88r" path="res://visual_debug/markers/debug_marker_sphere.tscn" id="2_sevpm"]
 
 [node name="TestRails" type="Node3D"]
@@ -23,13 +23,6 @@ size = Vector3(2.6, 1, 3.25)
 [node name="CSGBox3D" type="CSGBox3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875, -0.2, -3.025)
 size = Vector3(9.55, 0.4, 8.55)
-
-[node name="RailSegment" parent="." node_paths=PackedStringArray("path_guide") instance=ExtResource("1_78y8h")]
-snap_margin = 30.0
-path_guide = NodePath("../PathGuide")
-
-[node name="SegmentPath" parent="RailSegment" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="PathGuide" type="Node3D" parent="."]
 
@@ -85,4 +78,5 @@ transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -3.2, 4.95
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.6, -2.6)
 
-[editable path="RailSegment"]
+[node name="RailSegment" parent="." node_paths=PackedStringArray("path_guide") instance=ExtResource("1_78y8h")]
+path_guide = NodePath("../PathGuide")

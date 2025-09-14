@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://be5wrtpb3o5f8"]
+
+[ext_resource type="Script" uid="uid://cqlyq8bi3ec27" path="res://Rails/rail_manager/test_rail_manager.gd" id="1_5l5lj"]
+[ext_resource type="PackedScene" uid="uid://gfnd55po7ns6" path="res://Rails/rail_manager/rail_manager.tscn" id="2_iuwvo"]
+
+[node name="TestRailManager" type="Node3D" node_paths=PackedStringArray("path_guide")]
+script = ExtResource("1_5l5lj")
+path_guide = NodePath("PathGuide")
+
+[node name="RailManager" parent="." instance=ExtResource("2_iuwvo")]
+
+[node name="PathGuide" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0.4)
+
+[node name="Marker3D2" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 0, 1.35)
+
+[node name="Marker3D3" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, -0.6)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.4, 0.0999999)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]

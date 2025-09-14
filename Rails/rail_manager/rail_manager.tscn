@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://gfnd55po7ns6"]
+
+[ext_resource type="Script" uid="uid://cb30yjkk23tg3" path="res://Rails/rail_manager/rail_manager.gd" id="1_qhwn7"]
+[ext_resource type="PackedScene" uid="uid://jx72y87c7ysq" path="res://Rails/rail_segment/rail_segment.tscn" id="2_lrgta"]
+
+[node name="RailManager" type="Node3D"]
+script = ExtResource("1_qhwn7")
+rail_segment = ExtResource("2_lrgta")
