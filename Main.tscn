@@ -8,8 +8,6 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Map" parent="." instance=ExtResource("1_glv2v")]
-height_factor = null
-mountain_height_multiplier = null
 
 [node name="UIContainer" parent="." instance=ExtResource("2_uu6xs")]
 

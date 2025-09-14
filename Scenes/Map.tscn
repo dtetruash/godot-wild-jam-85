@@ -4,14 +4,12 @@
 [ext_resource type="Script" uid="uid://cj242g3jmvvbr" path="res://Systems/decorations/decorations_manager.gd" id="2_etk83"]
 
 [node name="Map" type="Node3D"]
-script = ExtResource("2_7yn8b")
-num_cities = 0
-height_factor = null
-mountain_height_multiplier = null
-island_shape_frequency = 0.1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.672509, 0.740089, 0, -0.740089, 0.672509, 0, 25.0013, 0)
 
 [node name="DecorationsManager" type="Node3D" parent="."]
 script = ExtResource("2_etk83")
+
+[node name="HexGrid" type="Node3D" parent="."]
+script = ExtResource("2_7yn8b")

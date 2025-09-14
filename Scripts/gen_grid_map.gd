@@ -1,4 +1,4 @@
-@tool
+
 extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
@@ -7,7 +7,7 @@ extends Node3D
 
 @export var num_cities: int = 15
 @export var island_radius: int = 25
-@export var city_min_dist: int = 3.0
+@export var city_min_dist: int = 6.0
 @export var hex_radius: float = 5.0
 @export var radius_threshold: float = 0.9
 @export var height_factor: float = 5.0
@@ -102,6 +102,7 @@ func get_cities() -> Array:
 			ret.append(cell)
 	return ret
 
+# returns distance to another city in axial units
 func query_distance_to_cities(q: Vector2) -> float:
 	var cities_arr = self.get_cities()
 	if cities_arr.size() == 0:
