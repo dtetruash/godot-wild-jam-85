@@ -6,13 +6,6 @@ extends Node3D
 		_regenerate_multimesh()
 		plank_interval = clampf(value, 0.3, 1.0)
 
-## Snap each segment path point to the closest solid object below it.
-@export var snap_to_floor: bool = false
-## How far down should be look from each point to snap to.
-@export var snap_margin: float = 10.0:
-	set(value):
-		snap_margin = max(1.0, value)
-
 @export var path_guide: Node3D
 
 @onready var segment_path: Path3D = $SegmentPath
@@ -21,19 +14,16 @@ var is_mesh_dirty: bool = false
 
 func _ready() -> void:
 	_set_curve_points_from_guide()
-	pass
 
 func _set_curve_points_from_guide():
-	# get points to go through
 	var segment_curve := segment_path.curve
-	# segment_curve.up_vector_enabled = true
-	segment_curve.clear_points()
 	var point_count: int  = path_guide.get_child_count()
+
+	segment_curve.clear_points()
 
 	for point_idx in range(0, point_count):
 		var guide: Node3D = path_guide.get_child(point_idx)
 		segment_curve.add_point(guide.global_position)
-		segment_curve.set_point_tilt(point_idx, 0)
 
 	CurveSmoothing.smooth(segment_path.curve)
 
@@ -51,6 +41,7 @@ func _input(event):
 func  _regenerate_multimesh():
 	if segment_path == null:
 		return
+
 	var segment_length: float = segment_path.curve.get_baked_length()
 	var plank_count = floor(segment_length / plank_interval)
 
