@@ -17,6 +17,9 @@ enum Day {
 @export var current_time: float = start_time
 
 @onready var time_multiplier = minutes_per_day / day_duration_wall_time_minutes
+@onready var map_manager = self.get_parent().find_child("MapManager", true)
+
+var time_started: bool = false
 
 signal time_changed(hours, minutes, day)
 
@@ -26,10 +29,11 @@ func get_display_time_truncated() -> Vector3:
 	var minutes = int(current_time) % 60
 	var day = int(current_time / minutes_per_day) % 7
 	return Vector3(hours, minutes, day)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
