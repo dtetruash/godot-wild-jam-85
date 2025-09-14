@@ -1,4 +1,4 @@
-
+@tool
 extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
@@ -10,6 +10,8 @@ extends Node3D
 @export var city_min_dist: int = 3.0
 @export var hex_radius: float = 5.0
 @export var radius_threshold: float = 0.9
+@export var height_factor: float = 5.0
+@export var mountain_height_multiplier:float = 1.5
 
 @export_group("Noise Config")
 @export var city_seed: int = 38
@@ -45,6 +47,7 @@ enum TileType {
 ## Cell {
 ##	axial_coordinates: Vector2(p, r)
 ## 	type: TileType,
+##	height: float
 ## }
 ##
 
@@ -174,9 +177,14 @@ func populate_biomes() -> void:
 		#print_debug("threshold: ", threshold, " radius_threshold: ", radius_threshold, " radius_noise_weight", radial_noise_weight )
 		if dist > threshold:
 			tile_type = TileType.WaterTile
-			
+		var tile_height = max(0.0, val) if tile_type != TileType.WaterTile else 0.0
+		var height = height_factor * tile_height
+		if tile_type == TileType.MountainTile:
+			height *= mountain_height_multiplier
+		
 		var cell_data = {
-			'type': tile_type
+			'type': tile_type,
+			'height': height
 		}
 		self.cells[Vector2(q, r)] = cell_data
 
@@ -223,7 +231,11 @@ func _ready() -> void:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, mountain_material)
 			TileType.CityTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, city_material)
+				
+		# apply transforms
+		var height = 1.0  + self.cells[cell]['height']
 		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
+		new_tile.transform = new_tile.transform.scaled_local(Vector3(1.0, height, 1.0))
 		self.add_child(new_tile)
 	
 	

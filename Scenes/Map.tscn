@@ -6,6 +6,8 @@
 [node name="Map" type="Node3D"]
 script = ExtResource("2_7yn8b")
 num_cities = 0
+height_factor = null
+mountain_height_multiplier = null
 island_shape_frequency = 0.1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
