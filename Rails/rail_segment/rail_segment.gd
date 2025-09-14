@@ -19,7 +19,7 @@ func _ready() -> void:
 ## Set the world points of the segment's path and recompute it's mesh
 func set_segment_points(world_points: Array[Vector3]) -> void:
 	if not segment_path:
-		printerr("Tried setting rail segment world_points without a Path.")
+		push_error("Tried setting rail segment world_points without a Path.")
 		return
 
 	var segment_curve := segment_path.curve
@@ -32,21 +32,15 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 
 	CurveSmoothing.smooth(segment_curve)
 
-func _set_curve_points_from_guide():
+func _set_curve_points_from_guide() -> void:
 	if not path_guide:
 		return
 
-	var segment_curve := segment_path.curve
-	var point_count: int  = path_guide.get_child_count()
+	var world_points: Array[Vector3]
+	for guide in path_guide.get_children():
+		world_points.append(guide.global_position)
 
-	segment_curve.clear_points()
-
-	for point_idx in range(0, point_count):
-		var guide: Node3D = path_guide.get_child(point_idx)
-		segment_curve.add_point(guide.global_position)
-
-	CurveSmoothing.smooth(segment_path.curve)
-
+	self.set_segment_points(world_points)
 
 func _process(_delta: float) -> void:
 	if is_mesh_dirty:
