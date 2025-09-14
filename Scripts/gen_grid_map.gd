@@ -8,7 +8,7 @@ extends Node3D
 signal map_generated
 
 
-@export var num_cities: int = 15
+@export var num_towns: int = 15
 @export var island_radius: int = 25
 @export var city_min_dist: int = 6.0
 @export var hex_radius: float = 5.0
@@ -32,10 +32,10 @@ signal map_generated
 @onready var grass_material = preload("res://Assets/Materials/Grass.tres")
 @onready var forest_material = preload("res://Assets/Materials/Forest.tres")
 @onready var mountain_material = preload("res://Assets/Materials/Mountain.tres")
-@onready var city_material = preload("res://Assets/Materials/City.tres")
+@onready var town_material = preload("res://Assets/Materials/Town.tres")
 
 # TODO: eventually, this should be an array of 
-# "City" data classes that contain other info about the city
+# "Town" data classes that contain other info about the city
 # ie name, location, population (if we care), etc.
 
 @onready var cells := {}
@@ -44,7 +44,7 @@ enum TileType {
 	WaterTile,
 	ForestTile,
 	GrassTile,
-	CityTile,
+	TownTile,
 	MountainTile,
 }
 
@@ -110,16 +110,16 @@ func neighbors(q: int, r: int) -> Array:
 			results.append(n)
 	return results
 	
-func get_cities() -> Array:
+func get_towns() -> Array:
 	var ret = []
 	for cell in cells:
-		if self.cells[cell]['type'] == TileType.CityTile:
+		if self.cells[cell]['type'] == TileType.TownTile:
 			ret.append(cell)
 	return ret
 
 # returns distance to another city in axial units
 func query_distance_to_cities(q: Vector2) -> float:
-	var cities_arr = self.get_cities()
+	var cities_arr = self.get_towns()
 	if cities_arr.size() == 0:
 		return 1e10;
 	var min_dist = 1e10; # some large value
@@ -204,7 +204,7 @@ func populate_biomes() -> void:
 		self.cells[Vector2(q, r)] = cell_data
 
 func initialize_cities() -> void:
-	while self.get_cities().size() < self.num_cities:
+	while self.get_towns().size() < self.num_towns:
 		var indx = randi() % self.cells.keys().size()
 		var loc: Vector2 = self.cells.keys()[indx]
 		
@@ -213,7 +213,7 @@ func initialize_cities() -> void:
 		var is_not_too_to_close_to_other_cities = closest_city_dist > self.city_min_dist
 		
 		if is_not_water and is_not_too_to_close_to_other_cities:
-			self.cells[loc]['type'] = TileType.CityTile
+			self.cells[loc]['type'] = TileType.TownTile
 			
 func create_map() -> void:
 	for cell in self.cells.keys():
@@ -230,8 +230,8 @@ func create_map() -> void:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
 			TileType.MountainTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, mountain_material)
-			TileType.CityTile:
-				new_tile.find_child('Cylinder').set_surface_override_material(0, city_material)
+			TileType.TownTile:
+				new_tile.find_child('Cylinder').set_surface_override_material(0, town_material)
 				
 		# apply transforms
 		var height_scale = 1.0 + self.cells[cell]['height_scale']

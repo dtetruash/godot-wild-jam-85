@@ -92,7 +92,7 @@ func poisson_sample() -> Array:
 			TileType.MountainTile: radius = self.mountain_radius
 			TileType.GrassTile: radius = self.grass_radius
 			TileType.ForestTile: radius = self.forest_radius
-			TileType.CityTile: radius = self.city_radius
+			TileType.TownTile: radius = self.city_radius
 		
 		var found: bool = false
 		

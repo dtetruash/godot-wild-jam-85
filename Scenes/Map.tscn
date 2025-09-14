@@ -10,7 +10,9 @@ transform = Transform3D(1, 0, 0, 0, 0.672509, 0.740089, 0, -0.740089, 0.672509, 
 
 [node name="MapManager" type="Node3D" parent="."]
 script = ExtResource("2_7yn8b")
+num_towns = null
 
 [node name="DecorationsManager" type="Node3D" parent="MapManager"]
 script = ExtResource("2_etk83")
-enabled_decorations = false
+
+[node name="VillageManager" type="Node3D" parent="MapManager"]
