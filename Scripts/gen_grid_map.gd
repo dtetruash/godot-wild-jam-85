@@ -1,9 +1,12 @@
-
+@tool
 extends Node3D
 ## Generates grid map terrain for the cozy train
 ##
 ## Note that this grid map only generates basic terrain types
 ## Decorations will be added using a separate type.
+
+signal map_generated
+
 
 @export var num_cities: int = 15
 @export var island_radius: int = 25
@@ -12,6 +15,9 @@ extends Node3D
 @export var radius_threshold: float = 0.9
 @export var height_factor: float = 5.0
 @export var mountain_height_multiplier:float = 1.5
+@export var base_tile_height = 1.25
+
+@onready var is_generated: bool = false
 
 @export_group("Noise Config")
 @export var city_seed: int = 38
@@ -72,14 +78,23 @@ func for_each_cell(callback: Callable) -> void:
 	for key in cells.keys():
 		callback.call(key, cells[key])
 
+# use this function if you do not care about height
 func axial_to_world(q: int, r: int) -> Vector2:
 	var y = hex_radius * (3.0/2.0 * q)
 	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
 	return Vector2(x, y)
+	
+# use this function to get a 3d world position
+func axial_to_world_3d(q: int, r: int) -> Vector3:
+	var height = self.cells[Vector2(q, r)]['height']
+	var y = hex_radius * (3.0/2.0 * q)
+	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
+	
+	return Vector3(x, height, y)
 
 func world_to_axial(pos: Vector2) -> Vector2:
-	var q = (2.0/3.0 * pos.x) / hex_radius
-	var r = (-1.0/3.0 * pos.x + sqrt(3.0)/3.0 * pos.y) / hex_radius
+	var q = (2.0/3.0 * pos.y) / hex_radius
+	var r = (-1.0/3.0 * pos.y + sqrt(3.0)/3.0 * pos.x) / hex_radius
 	var v = _cube_round(Vector3(q, -q-r, r))
 	return Vector2(v.x, v.z)
 	
@@ -136,7 +151,6 @@ func generate_hexagon(radius: int) -> void:
 				cells[Vector2(q, r)] = null
 				
 func populate_biomes() -> void:
-	print_debug("threshold at build:", radius_threshold)
 	# Instantiate
 	var noise = FastNoiseLite.new()
 	# Configure
@@ -179,17 +193,17 @@ func populate_biomes() -> void:
 		if dist > threshold:
 			tile_type = TileType.WaterTile
 		var tile_height = max(0.0, val) if tile_type != TileType.WaterTile else 0.0
-		var height = height_factor * tile_height
+		var height_scale = height_factor * tile_height
 		if tile_type == TileType.MountainTile:
-			height *= mountain_height_multiplier
+			height_scale *= mountain_height_multiplier
 		
 		var cell_data = {
 			'type': tile_type,
-			'height': height
+			'height_scale': height_scale
 		}
 		self.cells[Vector2(q, r)] = cell_data
 
-func populate_cities() -> void:
+func initialize_cities() -> void:
 	while self.get_cities().size() < self.num_cities:
 		var indx = randi() % self.cells.keys().size()
 		var loc: Vector2 = self.cells.keys()[indx]
@@ -200,22 +214,8 @@ func populate_cities() -> void:
 		
 		if is_not_water and is_not_too_to_close_to_other_cities:
 			self.cells[loc]['type'] = TileType.CityTile
-
-func _init() -> void:
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	# clear
-	self.cells.clear()
-	
-	# seed godot built in rng
-	seed(city_seed)
-	
-	self.generate_hexagon(island_radius)
-	self.populate_biomes()
-	self.populate_cities()
-	# finally, we instantiate meshes
+			
+func create_map() -> void:
 	for cell in self.cells.keys():
 		var world_pos_2d = axial_to_world(cell.x, cell.y)
 		
@@ -234,11 +234,31 @@ func _ready() -> void:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, city_material)
 				
 		# apply transforms
-		var height = 1.0  + self.cells[cell]['height']
+		var height_scale = 1.0 + self.cells[cell]['height_scale']
+		self.cells[cell]['height'] = self.base_tile_height * height_scale
 		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
-		new_tile.transform = new_tile.transform.scaled_local(Vector3(1.0, height, 1.0))
+		new_tile.transform = new_tile.transform.scaled_local(Vector3(1.0, height_scale, 1.0))
 		self.add_child(new_tile)
+		
+func _init() -> void:
+	pass
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	# clear
+	self.cells.clear()
 	
+	# seed godot built in rng
+	seed(city_seed)
+	
+	self.generate_hexagon(island_radius)
+	self.populate_biomes()
+	self.initialize_cities()
+	# finally, we instantiate meshes
+	self.create_map()
+	
+	self.is_generated = true
+	emit_signal("map_generated")
 	
 	
 	
