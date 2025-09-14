@@ -13,3 +13,4 @@ script = ExtResource("2_7yn8b")
 
 [node name="DecorationsManager" type="Node3D" parent="MapManager"]
 script = ExtResource("2_etk83")
+enabled_decorations = false

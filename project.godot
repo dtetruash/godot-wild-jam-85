@@ -15,9 +15,19 @@ run/main_scene="uid://cmsgcif2xhq4q"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="uid://b0dp33m3r8urf"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [dotnet]
 
 project/assembly_name="Wild Jam 85"
+
+[file_customization]
+
+folder_colors={
+"res://Rails/": "yellow"
+}
 
 [filesystem]
 
