@@ -1,7 +1,5 @@
 [gd_scene load_steps=8 format=3 uid="uid://jx72y87c7ysq"]
 
-[node name="RailSegment" type="Node3D"]
-
 [ext_resource type="Script" uid="uid://d0ad6bibyrsdr" path="res://Rails/rail_setment/rail_segment.gd" id="1_3o5ql"]
 [ext_resource type="Material" uid="uid://dw0olshq03fku" path="res://Rails/rail_setment/material_rail_metail.material" id="2_iwxy6"]
 [ext_resource type="Material" uid="uid://do8ld3roe8lfl" path="res://Rails/rail_setment/rail_wood.material" id="3_iwxy6"]
