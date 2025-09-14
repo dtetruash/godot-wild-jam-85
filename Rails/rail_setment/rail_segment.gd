@@ -18,19 +18,24 @@ extends Node3D
 @onready var segment_path: Path3D = $SegmentPath
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
-var is_path_dirty: bool = false
 
 func _ready() -> void:
+	_set_curve_points_from_guide()
+	pass
+
+func _set_curve_points_from_guide():
 	# get points to go through
 	var segment_curve := segment_path.curve
+	# segment_curve.up_vector_enabled = true
 	segment_curve.clear_points()
 	var point_count: int  = path_guide.get_child_count()
 
-	segment_curve.point_count = point_count
 	for point_idx in range(0, point_count):
 		var guide: Node3D = path_guide.get_child(point_idx)
-		segment_curve.set_point_position(point_idx, guide.global_position)
+		segment_curve.add_point(guide.global_position)
 		segment_curve.set_point_tilt(point_idx, 0)
+
+	CurveSmoothing.smooth(segment_path.curve)
 
 
 func _process(_delta: float) -> void:
@@ -38,10 +43,10 @@ func _process(_delta: float) -> void:
 		_regenerate_multimesh()
 		is_mesh_dirty = false
 
-func _physics_process(_delta: float) -> void:
-	if snap_to_floor:
-			_snap_path_to_floor()
-			is_path_dirty = false
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+			_set_curve_points_from_guide()
 
 func  _regenerate_multimesh():
 	if segment_path == null:
@@ -59,7 +64,7 @@ func  _regenerate_multimesh():
 		var plank_forward = plank_position.direction_to(
 			segment_path.curve.sample_baked(distance_along_path + 0.1, true)
 		).normalized()
-		var plank_up = segment_path.curve.sample_baked_up_vector(distance_along_path, true)
+		var plank_up = segment_path.curve.sample_baked_up_vector(distance_along_path, true).normalized()
 		var plank_right = plank_forward.cross(plank_up).normalized()
 
 		var plank_basis = Basis(
@@ -71,27 +76,5 @@ func  _regenerate_multimesh():
 
 		plank_multimesh.set_instance_transform(plank_idx, plank_transform)
 
-
-func _snap_path_to_floor():
-	# print("snapping path to flor")
-	# for each point in the path
-	var path_points :=  segment_path.curve.get_baked_points()
-	var point_count: int = segment_path.curve.point_count
-	print(point_count)
-	print(path_points)
-	for point_idx: int in range(0, point_count):
-		var path_point: Vector3 = path_points[point_idx]
-
-		var ray_query := PhysicsRayQueryParameters3D.create(path_point, path_point + Vector3.DOWN * snap_margin)
-		var space_state := get_world_3d().direct_space_state
-		var ray_cast_result := space_state.intersect_ray(ray_query)
-		print("about to snap poitn " + str(point_idx) + " with res " + str(ray_cast_result))
-		if ray_cast_result:
-			path_point = ray_cast_result.position
-			print("setting point " + str(point_idx) + " to " + str(path_point))
-			segment_path.curve.set_point_position(point_idx, path_point)
-
-
 func _on_path_3d_curve_changed() -> void:
 	is_mesh_dirty = true
-	is_path_dirty = true

@@ -25,46 +25,59 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875, -0.2, -3.025)
 size = Vector3(9.55, 0.4, 8.55)
 
 [node name="RailSegment" parent="." node_paths=PackedStringArray("path_guide") instance=ExtResource("1_78y8h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -2.75, 2.85)
 snap_margin = 30.0
 path_guide = NodePath("../PathGuide")
+
+[node name="SegmentPath" parent="RailSegment" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="PathGuide" type="Node3D" parent="."]
 
 [node name="Marker3D" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15, 1.05, 0.55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.95, -1.5)
 
 [node name="DebugMarkerSphere" parent="PathGuide/Marker3D" instance=ExtResource("2_sevpm")]
 
+[node name="Marker3D2" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.25, 0.95, 0.7)
+
+[node name="DebugMarkerSphere" parent="PathGuide/Marker3D2" instance=ExtResource("2_sevpm")]
+
 [node name="Marker3D3" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 0.0500001, -0.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.45, 0.95, -3.7)
 
 [node name="DebugMarkerSphere2" parent="PathGuide/Marker3D3" instance=ExtResource("2_sevpm")]
 
-[node name="Marker3D2" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.05, -3.55)
-
-[node name="DebugMarkerSphere3" parent="PathGuide/Marker3D2" instance=ExtResource("2_sevpm")]
-
-[node name="Marker3D5" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95, 0.65, -4)
-
-[node name="DebugMarkerSphere4" parent="PathGuide/Marker3D5" instance=ExtResource("2_sevpm")]
-
 [node name="Marker3D6" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95, 0.0500001, -6.95)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05, 0.95, -4.8)
 
-[node name="DebugMarkerSphere5" parent="PathGuide/Marker3D6" instance=ExtResource("2_sevpm")]
-
-[node name="Marker3D7" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.0500001, -5.85)
-
-[node name="DebugMarkerSphere7" parent="PathGuide/Marker3D7" instance=ExtResource("2_sevpm")]
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D6" instance=ExtResource("2_sevpm")]
 
 [node name="Marker3D4" type="Marker3D" parent="PathGuide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.0500001, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.05, 0.95, -5.05)
 
-[node name="DebugMarkerSphere6" parent="PathGuide/Marker3D4" instance=ExtResource("2_sevpm")]
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D4" instance=ExtResource("2_sevpm")]
+
+[node name="Marker3D7" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15, 0.6, -4.25)
+
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D7" instance=ExtResource("2_sevpm")]
+
+[node name="Marker3D8" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, 0.6, -5.2)
+
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D8" instance=ExtResource("2_sevpm")]
+
+[node name="Marker3D9" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, 0.1, -6.7)
+
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D9" instance=ExtResource("2_sevpm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0)
+
+[node name="Marker3D5" type="Marker3D" parent="PathGuide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.1, -6.5)
+
+[node name="DebugMarkerSphere2" parent="PathGuide/Marker3D5" instance=ExtResource("2_sevpm")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -3.2, 4.95, 1.65)
