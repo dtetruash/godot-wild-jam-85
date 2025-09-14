@@ -1,14 +1,14 @@
 @tool
 extends Node3D
 
-@export var plank_interval : float = 0.25:
+@export_range(0.3, 1.0) var plank_interval : float = 0.25:
     set(value):
        _regenerate_multimesh()
-       plank_interval = value
+       plank_interval = clampf(value, 0.3, 1.0)
 
 
-@onready var segment_path: Path3D = $Path3D
-@onready var plank_multimesh: MultiMesh = $Path3D/MultiMeshInstance3D.multimesh
+@onready var segment_path: Path3D = $SegmentPath
+@onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_dirty: bool = false
 
 # Called when the node enters the scene tree for the first time.
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if is_dirty:
         _regenerate_multimesh()
         is_dirty = false
