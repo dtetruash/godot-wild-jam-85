@@ -6,19 +6,17 @@ class_name RailSegment extends Node3D
 		_regenerate_multimesh()
 		plank_interval = clampf(value, 0.3, 1.0)
 
-## Node whose childer's transforms will be used as points of the segment
+## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
 
 @onready var segment_path: Path3D = $SegmentPath
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
 
-func _init(world_points: Array[Vector3]) -> void:
-	self.set_segment_points(world_points)
-
 func _ready() -> void:
 	_set_curve_points_from_guide()
 
+## Set the world points of the segment's path and recompute it's mesh
 func set_segment_points(world_points: Array[Vector3]) -> void:
 	if not segment_path:
 		printerr("Tried setting rail segment world_points without a Path.")
