@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnhwff0g6xxw6"]
+[gd_scene load_steps=4 format=3 uid="uid://cnhwff0g6xxw6"]
 
 [ext_resource type="Script" uid="uid://ht0t3xxbmvvi" path="res://Scripts/gen_grid_map.gd" id="2_7yn8b"]
 [ext_resource type="Script" uid="uid://cj242g3jmvvbr" path="res://Systems/decorations/decorations_manager.gd" id="2_etk83"]
+[ext_resource type="Script" uid="uid://dyawowmn180js" path="res://Systems/town_management/town_manager.gd" id="3_etk83"]
 
 [node name="Map" type="Node3D"]
 
@@ -13,4 +14,6 @@ script = ExtResource("2_7yn8b")
 
 [node name="DecorationsManager" type="Node3D" parent="MapManager"]
 script = ExtResource("2_etk83")
-enabled_decorations = false
+
+[node name="TownManager" type="Node3D" parent="MapManager"]
+script = ExtResource("3_etk83")
