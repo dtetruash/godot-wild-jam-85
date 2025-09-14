@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc2meam304wu2"]
+
+[ext_resource type="PackedScene" uid="uid://dore06yu8l5v8" path="res://Assets/Models/mountain_models.glb" id="1_53nuj"]
+
+[node name="mountain_models" instance=ExtResource("1_53nuj")]
