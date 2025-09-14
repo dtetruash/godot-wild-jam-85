@@ -9,7 +9,7 @@ extends Node3D
 
 var num_labels = 0
 
-func initialize_town_data(town_centers_2d: Array[Vector2]):
+func initialize_town_data(town_centers_2d: Array[Vector2i]):
 	
 	var rng = RandomNumberGenerator.new()
 	rng.seed = rng_seed
