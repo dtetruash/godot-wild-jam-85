@@ -1,5 +1,5 @@
 @tool
-extends Node3D
+class_name RailSegment extends Node3D
 
 @export_range(0.3, 1.0) var plank_interval : float = 0.25:
 	set(value):
@@ -12,6 +12,9 @@ extends Node3D
 @onready var segment_path: Path3D = $SegmentPath
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
+
+func _init(world_points: Array[Vector3]) -> void:
+	self.set_segment_points(world_points)
 
 func _ready() -> void:
 	_set_curve_points_from_guide()
