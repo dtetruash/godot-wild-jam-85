@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://jx72y87c7ysq"]
 
-[ext_resource type="Script" uid="uid://d0ad6bibyrsdr" path="res://Rails/rail_setment/rail_segment.gd" id="1_3o5ql"]
-[ext_resource type="Material" uid="uid://dw0olshq03fku" path="res://Rails/rail_setment/material_rail_metail.material" id="2_iwxy6"]
-[ext_resource type="Material" uid="uid://blhjihxmpbdy" path="res://Rails/rail_setment/rail_wood.material" id="3_iwxy6"]
+[ext_resource type="Script" uid="uid://d0ad6bibyrsdr" path="res://Rails/rail_segment/rail_segment.gd" id="1_3o5ql"]
+[ext_resource type="Material" uid="uid://dw0olshq03fku" path="res://Rails/rail_segment/material_rail_metail.material" id="2_iwxy6"]
+[ext_resource type="Material" uid="uid://blhjihxmpbdy" path="res://Rails/rail_segment/rail_wood.material" id="3_iwxy6"]
 
 [sub_resource type="Curve3D" id="Curve3D_m6w3m"]
 _data = {
