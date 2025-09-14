@@ -227,7 +227,7 @@ func create_map() -> void:
 			TileType.ForestTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
 			TileType.GrassTile:
-				new_tile.find_child('Cylinder').set_surface_override_material(0, grass_material)
+				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
 			TileType.MountainTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, mountain_material)
 			TileType.CityTile:
@@ -256,6 +256,10 @@ func _ready() -> void:
 	self.initialize_cities()
 	# finally, we instantiate meshes
 	self.create_map()
+	
+	# call the decorate function from my child
+	var decoration_manager = self.find_child("DecorationsManager")
+	decoration_manager.generate_decorations()
 	
 	self.is_generated = true
 	emit_signal("map_generated")
