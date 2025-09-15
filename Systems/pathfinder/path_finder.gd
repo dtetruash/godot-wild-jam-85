@@ -49,15 +49,15 @@ func movement_cost(tile: Dictionary) -> int:
 		TileType.GrassTile:
 			return 1
 		TileType.ForestTile:
-			return 2
+			return 5
 		TileType.MountainTile:
-			return 4
+			return 25
 		TileType.TownTile:
 			return 1
 		TileType.WaterTile:
-			return INF
+			return 100000
 		_:
-			return INF
+			return 100000
 
 ## A* finds a path from start to goal.
 ## The path should be the cheapest available with respect to some cost,
@@ -114,8 +114,9 @@ func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 			
 			var tile = tiles[neighbor]
 			var cost = movement_cost(tile)
-			if cost == INF:
-				continue # skip if water or invalid
+			#print_debug("cost: ", cost)
+			#if cost == INF:
+				#continue # skip if water or invalid
 				
 			var tentative_g = g_score[current] + cost
 			if not g_score.has(neighbor) or tentative_g < g_score[neighbor]:
@@ -123,7 +124,8 @@ func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 				g_score[neighbor] = tentative_g
 				var f_score = tentative_g + hex_distance(neighbor, goal)
 				#if not open_set.has(neighbor):
-				open_set.push(neighbor, f_score)
+				if not closed.has(neighbor):
+					open_set.push(neighbor, f_score)
 				
 	return []
 	
