@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dh6ykun8bv60u"]
+
+[ext_resource type="Shader" uid="uid://b5ubdd0adj515" path="res://Systems/sky/stylized_sky.gdshader" id="1_6xuxu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_oi3g3"]
+noise_type = 2
+frequency = 0.0017
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_erx7i"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_oi3g3")
+
+[resource]
+shader = ExtResource("1_6xuxu")
+shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_erx7i")
+shader_parameter/clouds_samples = 16
+shader_parameter/shadow_sample = 4
+shader_parameter/clouds_density = 0.5
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_smoothness = 0.035
+shader_parameter/clouds_light_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_shadow_intensity = 1.0
+shader_parameter/high_clouds_density = 0.0
+shader_parameter/top_color = Color(0.248063, 0.690723, 1, 1)
+shader_parameter/bottom_color = Color(0.246628, 0.468346, 1, 1)
+shader_parameter/sun_scatter = Color(0.0917041, 0.509358, 0.678454, 1)
+shader_parameter/astro_tint = Color(0, 0, 0, 1)
+shader_parameter/astro_scale = 1.0
+shader_parameter/astro_intensity = 1.0
+shader_parameter/stars_intensity = 0.0
+shader_parameter/shooting_stars_intensity = 0.0
+shader_parameter/shooting_star_tint = Color(0, 0, 0, 1)

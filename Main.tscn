@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=10 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -6,6 +6,14 @@
 [ext_resource type="Script" uid="uid://mkq1p13i1l8f" path="res://Scripts/time_display.gd" id="3_r0du0"]
 [ext_resource type="Script" uid="uid://cwowl246xw6wg" path="res://Systems/ui_signal_router/ui_signal_router.gd" id="4_3dxm6"]
 [ext_resource type="Script" uid="uid://c2xbkgbrnxhab" path="res://Systems/route_tool/route_tool.gd" id="5_fos0i"]
+[ext_resource type="Material" uid="uid://dh6ykun8bv60u" path="res://Systems/sky/examples/day_sky.tres" id="7_lgr22"]
+
+[sub_resource type="Sky" id="Sky_trn2v"]
+sky_material = ExtResource("7_lgr22")
+
+[sub_resource type="Environment" id="Environment_03owx"]
+background_mode = 2
+sky = SubResource("Sky_trn2v")
 
 [node name="Root" type="Node3D"]
 
@@ -28,3 +36,6 @@ script = ExtResource("4_3dxm6")
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("3_r0du0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_03owx")
