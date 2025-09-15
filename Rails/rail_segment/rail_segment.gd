@@ -64,19 +64,8 @@ func  _regenerate_multimesh():
 	for plank_idx in range(0, plank_count):
 		var distance_along_path = offset_along_path + plank_interval * plank_idx
 		var plank_position = segment_path.curve.sample_baked(distance_along_path, true)
-
-		var plank_forward = plank_position.direction_to(
-			segment_path.curve.sample_baked(distance_along_path + 0.1, true)
-		).normalized()
-		var plank_up = segment_path.curve.sample_baked_up_vector(distance_along_path, true).normalized()
-		var plank_right = plank_forward.cross(plank_up).normalized()
-
-		var plank_basis = Basis(
-			plank_right,
-			plank_up,
-			-plank_forward
-		)
-		var plank_transform = Transform3D(plank_basis, plank_position)
+		var plank_ahead = segment_path.curve.sample_baked(distance_along_path + 0.1, true)
+		var plank_transform = Transform3D(Basis(), plank_position).looking_at(plank_ahead, Vector3.UP)
 
 		plank_multimesh.set_instance_transform(plank_idx, plank_transform)
 
