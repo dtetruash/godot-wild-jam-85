@@ -34,10 +34,14 @@ signal map_generated
 @onready var mountain_material = preload("res://Assets/Materials/Mountain.tres")
 @onready var town_material = preload("res://Assets/Materials/Town.tres")
 
+@onready var debug_marker = preload("res://visual_debug/markers/debug_marker_sphere.tscn")
+
+@onready var rail_manager = self.get_parent().find_child("RailManager")
+@onready var town_manager = self.find_child("TownManager")
 # TODO: eventually, this should be an array of
 # "Town" data classes that contain other info about the city
 # ie name, location, population (if we care), etc.
-
+var debug = false
 @onready var cells := {}
 @onready var towns_centers: Array[Vector2i] = []
 
@@ -254,7 +258,7 @@ func _ready() -> void:
 
 	# create and populate towns
 	self.initialize_town_centers()
-	var town_manager = self.find_child("TownManager")
+	
 	town_manager.initialize_town_data(self.towns_centers)
 
 	# finally, we instantiate meshes
@@ -263,13 +267,12 @@ func _ready() -> void:
 	# call the decorate function from my child
 	var decoration_manager = self.find_child("DecorationsManager")
 	decoration_manager.generate_decorations()
-
+	
+	
 	self.is_generated = true
 	emit_signal("map_generated")
-
-
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+		

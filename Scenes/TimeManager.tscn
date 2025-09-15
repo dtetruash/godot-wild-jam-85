@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://msol7hjntncp" path="res://Scripts/time_manager.gd" id="1_7aa1f"]
 
-[node name="Node2D" type="Node2D"]
+[node name="TimeManager" type="Node2D"]
 script = ExtResource("1_7aa1f")

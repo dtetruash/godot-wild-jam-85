@@ -30,12 +30,12 @@ func initialize_ui_elements():
 	if ui_root == null:
 		push_error("Could not find UIContainer!")
 	for i in range(self.town_names.size()):
-		print_debug("Initializing label for ", town_names[i])
+		print_debug("Initializing label for ", town_names[i], " ", i)
 		var town_name: String = self.town_names[i]
 		var town_label = self.town_label_template.instantiate()
 		town_label.find_child("TextureRect").town_name = town_name
 		town_label.find_child("TextureRect").town_position = self.town_centers[i] + 5.0 * Vector3.UP
-		
+		town_label.find_child("TextureRect").town_id = i
 		ui_root.add_child(town_label)
 		self.num_labels += 1
 

@@ -18,7 +18,7 @@ texture = ExtResource("1_pp5xc")
 script = ExtResource("2_pp5xc")
 
 [node name="Button" type="Button" parent="TextureRect"]
-visible = false
+z_index = -1
 layout_mode = 0
 offset_right = 257.0
 offset_bottom = 65.0
