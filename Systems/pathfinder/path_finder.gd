@@ -127,11 +127,20 @@ func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 				
 	return []
 	
+func insert_midpoints(path: Array[Vector3]) -> Array[Vector3]:
+	var midpoints:Array[Vector3] = []
+	for i in range(path.size() - 1):
+		var point0: Vector3 = path[i]
+		var point1: Vector3 = path[i + 1]
+		var midpoint: Vector3 = (point0 + point1) / 2.0
+		midpoint.y = max(point0.y, point1.y)
+		midpoints.append(midpoint)
+		
+	# interleave
+	var points_out: Array[Vector3] = [path[0]]
+	for i in range(midpoints.size()):
+		points_out.append(midpoints[i])
+		points_out.append(path[i + 1])
+	return points_out
 func _process(delta: float) -> void:
-	if not debugged:
-		var start = self.map_manager.get_town_centers()[0]
-		var goal = self.map_manager.get_town_centers()[1]
-		print_debug("Finding shorted path from ", start, " to ", goal)
-		var path = self.a_star(start, goal)
-		debugged = true
-		print_debug("path found: ", path)
+	pass

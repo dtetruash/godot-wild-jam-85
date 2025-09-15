@@ -1,5 +1,5 @@
 @tool
-class_name RailSegment extends Node3D
+extends Node3D
 
 @export_range(0.3, 1.0) var plank_interval : float = 0.25:
 	set(value):
@@ -9,11 +9,12 @@ class_name RailSegment extends Node3D
 ## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
 
-@onready var segment_path: Path3D = $SegmentPath
+@onready var segment_path: Path3D = self.find_child("SegmentPath")
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
 
 func _ready() -> void:
+	print("HI: ", self.segment_path)
 	_set_curve_points_from_guide()
 
 ## Set the world points of the segment's path and recompute it's mesh

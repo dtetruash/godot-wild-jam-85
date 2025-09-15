@@ -1,22 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=7 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://dhp3cmcf7klny" path="res://Scenes/TimeManager.tscn" id="2_uu6xs"]
 [ext_resource type="Script" uid="uid://mkq1p13i1l8f" path="res://Scripts/time_display.gd" id="3_r0du0"]
+[ext_resource type="Script" uid="uid://cwowl246xw6wg" path="res://Systems/ui_signal_router/ui_signal_router.gd" id="4_3dxm6"]
+[ext_resource type="Script" uid="uid://c2xbkgbrnxhab" path="res://Systems/route_tool/route_tool.gd" id="5_fos0i"]
 
 [node name="Root" type="Node3D"]
 
 [node name="Map" parent="." instance=ExtResource("1_glv2v")]
 
-[node name="UIContainer" parent="." instance=ExtResource("2_uu6xs")]
-
-[node name="TimeDisplay" type="Label" parent="UIContainer"]
-offset_right = 40.0
-offset_bottom = 23.0
-script = ExtResource("3_r0du0")
-
 [node name="CameraSystem" parent="." instance=ExtResource("1_uu6xs")]
 camera_angle = -40.0
 zoom_stops = Array[float]([15.0, 25.0, 75.0])
 zoom_maximum = 1000.0
+
+[node name="RouteTool" type="Node3D" parent="."]
+script = ExtResource("5_fos0i")
+
+[node name="UIContainer" type="Node2D" parent="."]
+script = ExtResource("4_3dxm6")
+
+[node name="TimeManager" parent="UIContainer" instance=ExtResource("2_uu6xs")]
+
+[node name="TimeDisplay" type="Label" parent="UIContainer/TimeManager"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_r0du0")

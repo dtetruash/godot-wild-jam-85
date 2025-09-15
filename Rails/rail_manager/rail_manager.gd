@@ -1,7 +1,7 @@
 ## Manage the creation of rails in the world
 extends Node3D
 
-@export var rail_segment: PackedScene
+@export var rail_segment: PackedScene = preload("res://Rails/rail_segment/rail_segment.tscn")
 
 # (Vector2i, Vector2i) -> RailSegment
 @export var rails_in_level: Dictionary[Array, Node3D]
