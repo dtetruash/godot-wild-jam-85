@@ -10,6 +10,11 @@ extends Node3D
 
 ## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
+@export var should_use_path_guide: bool = false
+
+@export var show_segment_points: bool = false
+@onready var segment_point_visualizer: Node3D = $SegmentPath/SegmentPointVisualizer
+const DEBUG_MARKER_SPHERE = preload('res://visual_debug/markers/debug_marker_sphere.tscn')
 
 @onready var segment_path: Path3D = self.find_child("SegmentPath")
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
@@ -33,11 +38,18 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 	for point_idx in range(0, point_count):
 		segment_curve.add_point(world_points[point_idx])
 
+		if show_segment_points:
+			var debug_point = DEBUG_MARKER_SPHERE.instantiate()
+			debug_point.transform.origin = world_points[point_idx]
+			debug_point.scale = 2.0 * Vector3.ONE
+			segment_point_visualizer.add_child(debug_point)
+
+
 	if should_smooth_segment:
 		CurveSmoothing.smooth(segment_curve)
 
 func _set_curve_points_from_guide() -> void:
-	if not path_guide:
+	if not (path_guide and should_use_path_guide):
 		return
 
 	var world_points: Array[Vector3]
