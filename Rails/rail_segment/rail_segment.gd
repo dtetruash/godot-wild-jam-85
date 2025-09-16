@@ -16,13 +16,10 @@ extends Node3D
 @onready var segment_point_visualizer: Node3D = $SegmentPath/SegmentPointVisualizer
 const DEBUG_MARKER_SPHERE = preload('res://visual_debug/markers/debug_marker_sphere.tscn')
 
-@onready var segment_path: Path3D = self.find_child("SegmentPath")
+@onready var segment_path: Path3D = $SegmentPath
+
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
-
-func _ready() -> void:
-	print("HI: ", self.segment_path)
-	_set_curve_points_from_guide()
 
 ## Set the world points of the segment's path and recompute it's mesh
 func set_segment_points(world_points: Array[Vector3]) -> void:
@@ -31,9 +28,8 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 		return
 
 	var segment_curve := segment_path.curve
-	var point_count := world_points.size()
-
 	segment_curve.clear_points()
+	var point_count := world_points.size()
 
 	for point_idx in range(0, point_count):
 		segment_curve.add_point(world_points[point_idx])
@@ -44,9 +40,11 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 			debug_point.scale = 2.0 * Vector3.ONE
 			segment_point_visualizer.add_child(debug_point)
 
-
 	if should_smooth_segment:
 		CurveSmoothing.smooth(segment_curve)
+
+func _ready() -> void:
+	_set_curve_points_from_guide()
 
 func _set_curve_points_from_guide() -> void:
 	if not (path_guide and should_use_path_guide):
