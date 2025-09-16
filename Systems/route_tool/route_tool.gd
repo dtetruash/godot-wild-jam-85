@@ -8,6 +8,9 @@ var clicked_towns: Array[int] = []
 @onready var path_finder = map_manager.find_child("PathFinder", true)
 @onready var rail_manager = self.get_parent().find_child("RailManager", true)
 
+# TODO: Consider using a factory to instantiate trains
+const TRAIN_FOLLOWER = preload('res://Rails/train/train_follower.tscn')
+
 func _on_town_clicked(id: int) -> void:
 	if clicked_towns.has(id):
 		return
@@ -33,7 +36,10 @@ func _on_town_clicked(id: int) -> void:
 		path_world_3d = path_finder.insert_midpoints(path_world_3d)
 		print_debug("Creating rail")
 
-		self.rail_manager.add_rail_segment_from_points(start, end, path_world_3d)
+		var added_segment =  self.rail_manager.add_rail_segment_from_points(start, end, path_world_3d)
+		var train_follower = TRAIN_FOLLOWER.instantiate()
+		add_child(train_follower)
+		train_follower.assign_to_segment(added_segment)
 
 		clicked_towns.clear()
 
