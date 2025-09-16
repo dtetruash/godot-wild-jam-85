@@ -88,7 +88,7 @@ func axial_to_world(q: int, r: int) -> Vector2:
 	var y = hex_radius * (3.0/2.0 * q)
 	var x = hex_radius * (sqrt(3.0) * (r + q/2.0))
 	return Vector2(x, y)
-	
+
 # use this function to get a 3d world position
 func axial_to_world_3d(q: int, r: int) -> Vector3:
 	var height = self.cells[Vector2i(q, r)]['height']
@@ -258,7 +258,7 @@ func _ready() -> void:
 
 	# create and populate towns
 	self.initialize_town_centers()
-	
+
 	town_manager.initialize_town_data(self.towns_centers)
 
 	# finally, we instantiate meshes
@@ -267,12 +267,11 @@ func _ready() -> void:
 	# call the decorate function from my child
 	var decoration_manager = self.find_child("DecorationsManager")
 	decoration_manager.generate_decorations()
-	
-	
+
+
 	self.is_generated = true
 	emit_signal("map_generated")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-		

@@ -32,12 +32,11 @@ func _on_town_clicked(id: int) -> void:
 			path_world_3d.append(coord_3d)
 		path_world_3d = path_finder.insert_midpoints(path_world_3d)
 		print_debug("Creating rail")
-		
+
 		self.rail_manager.add_rail_segment_from_points(start, end, path_world_3d)
-		print(self.rail_manager.rails_in_level)
-		
+
 		clicked_towns.clear()
-		
+
 
 func _ready() -> void:
 	connect("town_clicked", _on_town_clicked)

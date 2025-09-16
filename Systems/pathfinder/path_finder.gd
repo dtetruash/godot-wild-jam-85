@@ -9,7 +9,7 @@ class PriorityQueue:
 
 	func is_empty() -> bool:
 		return elements.is_empty()
-		
+
 	func has(element) -> bool:
 		return elements.has(element)
 
@@ -43,7 +43,7 @@ func reconstruct_path(came_from: Dictionary, current: Vector2i) -> Array[Vector2
 		depth += 1
 	total_path.reverse()
 	return total_path
-	
+
 func movement_cost(tile: Dictionary) -> int:
 	match tile['type']:
 		TileType.GrassTile:
@@ -64,32 +64,32 @@ func movement_cost(tile: Dictionary) -> int:
 ## see movement_cost()
 func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 	var tiles = self.map_manager.cells
-	
+
 	if not tiles.has(start) or not tiles.has(goal):
 		print_debug("Tiles not found")
 		return []
-	
-	# The open set is the list of points that 
+
+	# The open set is the list of points that
 	# still need to be explored
 	var open_set:= PriorityQueue.new()
 	open_set.push(start, 0)
-	
+
 	# for a node N, came_from is the node preceeding it
 	var came_from = {}
 	# for a node n, g_score[n] is the currently known cost of the cheapest path
 	# from start to n
 	var g_score = {}
 	g_score[start] = 0
-	
+
 	var closed := {}
-	
+
 	while not open_set.is_empty():
 		var current = open_set.pop()
-		
+
 		if current == came_from.get(current, null):
 			push_error("Self-parent detected at %s" % current)
 			return []
-			
+
 		# skip if already finalized
 		if closed.has(current):
 			continue
@@ -101,23 +101,23 @@ func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 		if current == came_from.get(current, null):
 			push_error("Self-parent detected at %s" % str(current))
 			return []
-		
+
 		if current == goal:
 			return reconstruct_path(came_from, current)
 		var neighbors: Array[Vector2i] = self.map_manager.neighbors(current.x, current.y)
 		for neighbor in neighbors:
 			if not tiles.has(neighbor):
 				continue
-				
+
 			if closed.has(neighbor):
 				continue
-			
+
 			var tile = tiles[neighbor]
 			var cost = movement_cost(tile)
 			#print_debug("cost: ", cost)
 			#if cost == INF:
 				#continue # skip if water or invalid
-				
+
 			var tentative_g = g_score[current] + cost
 			if not g_score.has(neighbor) or tentative_g < g_score[neighbor]:
 				came_from[neighbor] = current
@@ -126,9 +126,9 @@ func a_star(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 				#if not open_set.has(neighbor):
 				if not closed.has(neighbor):
 					open_set.push(neighbor, f_score)
-				
+
 	return []
-	
+
 func insert_midpoints(path: Array[Vector3]) -> Array[Vector3]:
 	var midpoints:Array[Vector3] = []
 	for i in range(path.size() - 1):
@@ -137,7 +137,7 @@ func insert_midpoints(path: Array[Vector3]) -> Array[Vector3]:
 		var midpoint: Vector3 = (point0 + point1) / 2.0
 		midpoint.y = max(point0.y, point1.y)
 		midpoints.append(midpoint)
-		
+
 	# interleave
 	var points_out: Array[Vector3] = [path[0]]
 	for i in range(midpoints.size()):
