@@ -4,6 +4,7 @@ extends Node3D
 @export var train_chars: TrainCharacteristics
 
 var _follower: PathFollow3D = PathFollow3D.new()
+var _remote_transform: RemoteTransform3D = RemoteTransform3D.new()
 var _current_segment: Path3D = null
 var _progress_along_segment: float = 0.0:
 	set(value):
@@ -12,7 +13,11 @@ var _progress_along_segment: float = 0.0:
 func _ready() -> void:
 	_follower.rotation_mode = PathFollow3D.ROTATION_XY
 	_follower.v_offset = 0.5
-	_follower.loop = false
+	_follower.loop = true
+	_follower.add_child(_remote_transform)
+	_remote_transform.remote_path = self.get_path()
+
+	train_chars.speed += randf() * 0.2 * (-1 * randi() % 2 )
 
 func _process(delta: float) -> void:
 	move_along_segment(delta)

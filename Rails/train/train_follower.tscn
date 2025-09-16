@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://dclidqjxkhdrq" path="res://Rails/train/train_characteristics.gd" id="2_5h8w2"]
 
 [sub_resource type="Resource" id="Resource_jb8cj"]
+resource_local_to_scene = true
 script = ExtResource("2_5h8w2")
-speed = 1.0
+speed = 0.3
 metadata/_custom_type_script = "uid://dclidqjxkhdrq"
 
 [node name="TrainFollower" type="Node3D"]
@@ -26,3 +27,11 @@ size = Vector3(1, 0.7, 0.6)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.35, -0.8)
 radius = 0.35
 height = 1.5
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+transform = Transform3D(0.00729802, 0, -0.999796, 0, 0.999824, 0, 0.999812, 0, 0.0072979, -4.7, 0.5, 0)
+v_offset = 0.5
+rotation_mode = 2
+loop = false
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PathFollow3D"]
