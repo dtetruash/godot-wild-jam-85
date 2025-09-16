@@ -1,0 +1,62 @@
+[gd_scene load_steps=12 format=3 uid="uid://b8jhkjubgkfxx"]
+
+[ext_resource type="Shader" uid="uid://42xa84nspvgf" path="res://Effects/steam_plume/steam_plume_shader.tres" id="1_k0lg6"]
+[ext_resource type="Texture2D" uid="uid://c0qa5je6djbin" path="res://Effects/steam_plume/T_Noise_001R.png" id="2_j3j2m"]
+[ext_resource type="ArrayMesh" uid="uid://beqd64nl5ggoo" path="res://Effects/steam_plume/steam_01.obj" id="3_yu3b5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_163n2"]
+render_priority = 0
+shader = ExtResource("1_k0lg6")
+shader_parameter/TextureScale = Vector2(0.5, 0.5)
+shader_parameter/DesolverTexture = ExtResource("2_j3j2m")
+
+[sub_resource type="Curve" id="Curve_163n2"]
+_data = [Vector2(0.621622, 0.0832517), 0.0, 0.563481, 0, 0, Vector2(1, 0.995756), 3.40243, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_78fpr"]
+curve = SubResource("Curve_163n2")
+
+[sub_resource type="Gradient" id="Gradient_163n2"]
+offsets = PackedFloat32Array(0, 0.165948, 0.62069)
+colors = PackedColorArray(0.365714, 0.365714, 0.365714, 1, 0.514852, 0.514852, 0.514852, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_78fpr"]
+gradient = SubResource("Gradient_163n2")
+
+[sub_resource type="Curve" id="Curve_8i88f"]
+_data = [Vector2(0, 0.127816), 0.0, 0.0, 0, 0, Vector2(0.104247, 0.995946), 0.0, 0.0, 0, 0, Vector2(0.519305, 0.887529), -0.836049, -0.836049, 0, 0, Vector2(0.8861, 0.475841), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_163n2"]
+curve = SubResource("Curve_8i88f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_78fpr"]
+lifetime_randomness = 0.1
+particle_flag_rotate_y = true
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 5.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = -2.23517e-05
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_163n2")
+color_ramp = SubResource("GradientTexture1D_78fpr")
+alpha_curve = SubResource("CurveTexture_78fpr")
+
+[node name="VFX_SteamPlume" type="GPUParticles3D"]
+material_override = SubResource("ShaderMaterial_163n2")
+amount = 40
+lifetime = 3.0
+explosiveness = 0.2
+fixed_fps = 60
+visibility_aabb = AABB(-4, 0, -4, 8, 8, 8)
+process_material = SubResource("ParticleProcessMaterial_78fpr")
+draw_pass_1 = ExtResource("3_yu3b5")
