@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://beqd64nl5ggoo"
+path="res://.godot/imported/steam_01.obj-5af5514007d8dcc9fa82f58bcb532a64.mesh"
+
+[deps]
+
+files=["res://.godot/imported/steam_01.obj-5af5514007d8dcc9fa82f58bcb532a64.mesh"]
+
+source_file="res://Effects/steam_plume/steam_01.obj"
+dest_files=["res://.godot/imported/steam_01.obj-5af5514007d8dcc9fa82f58bcb532a64.mesh", "res://.godot/imported/steam_01.obj-5af5514007d8dcc9fa82f58bcb532a64.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

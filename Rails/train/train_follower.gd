@@ -12,7 +12,7 @@ var _progress_along_segment: float = 0.0:
 
 func _ready() -> void:
 	_follower.rotation_mode = PathFollow3D.ROTATION_XY
-	_follower.v_offset = 0.5
+	#_follower.v_offset = 0.5
 	_follower.loop = true
 	_follower.add_child(_remote_transform)
 	_remote_transform.remote_path = self.get_path()
