@@ -9,4 +9,3 @@ func _ready() -> void:
 	for guide_point in path_guide.get_children():
 		world_points.append(guide_point.global_position)
 	rail_manager.add_rail_segment_from_points(Vector2i(0,1),Vector2i(1,0), world_points)
-	print(rail_manager.rails_in_level)

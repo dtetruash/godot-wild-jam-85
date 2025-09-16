@@ -10,14 +10,16 @@ extends Node3D
 
 ## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
+@export var should_use_path_guide: bool = false
 
-@onready var segment_path: Path3D = self.find_child("SegmentPath")
+@export var show_segment_points: bool = false
+@onready var segment_point_visualizer: Node3D = $SegmentPath/SegmentPointVisualizer
+const DEBUG_MARKER_SPHERE = preload('res://visual_debug/markers/debug_marker_sphere.tscn')
+
+@onready var segment_path: Path3D = $SegmentPath
+
 @onready var plank_multimesh: MultiMesh = $SegmentPath/TrackPlanks.multimesh
 var is_mesh_dirty: bool = false
-
-func _ready() -> void:
-	print("HI: ", self.segment_path)
-	_set_curve_points_from_guide()
 
 ## Set the world points of the segment's path and recompute it's mesh
 func set_segment_points(world_points: Array[Vector3]) -> void:
@@ -26,18 +28,26 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 		return
 
 	var segment_curve := segment_path.curve
-	var point_count := world_points.size()
-
 	segment_curve.clear_points()
+	var point_count := world_points.size()
 
 	for point_idx in range(0, point_count):
 		segment_curve.add_point(world_points[point_idx])
 
+		if show_segment_points:
+			var debug_point = DEBUG_MARKER_SPHERE.instantiate()
+			debug_point.transform.origin = world_points[point_idx]
+			debug_point.scale = 2.0 * Vector3.ONE
+			segment_point_visualizer.add_child(debug_point)
+
 	if should_smooth_segment:
 		CurveSmoothing.smooth(segment_curve)
 
+func _ready() -> void:
+	_set_curve_points_from_guide()
+
 func _set_curve_points_from_guide() -> void:
-	if not path_guide:
+	if not (path_guide and should_use_path_guide):
 		return
 
 	var world_points: Array[Vector3]
@@ -64,19 +74,8 @@ func  _regenerate_multimesh():
 	for plank_idx in range(0, plank_count):
 		var distance_along_path = offset_along_path + plank_interval * plank_idx
 		var plank_position = segment_path.curve.sample_baked(distance_along_path, true)
-
-		var plank_forward = plank_position.direction_to(
-			segment_path.curve.sample_baked(distance_along_path + 0.1, true)
-		).normalized()
-		var plank_up = segment_path.curve.sample_baked_up_vector(distance_along_path, true).normalized()
-		var plank_right = plank_forward.cross(plank_up).normalized()
-
-		var plank_basis = Basis(
-			plank_right,
-			plank_up,
-			-plank_forward
-		)
-		var plank_transform = Transform3D(plank_basis, plank_position)
+		var plank_ahead = segment_path.curve.sample_baked(distance_along_path + 0.1, true)
+		var plank_transform = Transform3D(Basis(), plank_position).looking_at(plank_ahead, Vector3.UP)
 
 		plank_multimesh.set_instance_transform(plank_idx, plank_transform)
 
