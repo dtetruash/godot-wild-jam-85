@@ -80,3 +80,4 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.6
 
 [node name="RailSegment" parent="." node_paths=PackedStringArray("path_guide") instance=ExtResource("1_78y8h")]
 path_guide = NodePath("../PathGuide")
+should_use_path_guide = true
