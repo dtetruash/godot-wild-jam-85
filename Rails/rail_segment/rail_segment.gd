@@ -40,6 +40,11 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 func _ready() -> void:
 	_set_curve_points_from_guide()
 
+func _process(_delta: float) -> void:
+	if is_mesh_dirty:
+		_regenerate_multimesh()
+		is_mesh_dirty = false
+
 func _set_curve_points_from_guide() -> void:
 	if not (path_guide and should_use_path_guide):
 		return
@@ -49,11 +54,6 @@ func _set_curve_points_from_guide() -> void:
 		world_points.append(guide.global_position)
 
 	self.set_segment_points(world_points)
-
-func _process(_delta: float) -> void:
-	if is_mesh_dirty:
-		_regenerate_multimesh()
-		is_mesh_dirty = false
 
 func  _regenerate_multimesh():
 	if not plank_multimesh:
