@@ -10,4 +10,3 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 
 [node name="VFX_SteamPlume" parent="." instance=ExtResource("2_8i88f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18384, 0.937312)
-draw_pass_1 = null
