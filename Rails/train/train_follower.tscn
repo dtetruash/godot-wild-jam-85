@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcknyw3ehcdqk"]
+[gd_scene load_steps=6 format=3 uid="uid://dcknyw3ehcdqk"]
 
 [ext_resource type="Script" uid="uid://02ph2xks4b13" path="res://Rails/train/train_follower.gd" id="1_t5ur7"]
 [ext_resource type="Script" uid="uid://dclidqjxkhdrq" path="res://Rails/train/train_characteristics.gd" id="2_5h8w2"]
 [ext_resource type="PackedScene" uid="uid://6tdcdvgv0kpl" path="res://Rails/train/train_skin.tscn" id="3_5h8w2"]
+[ext_resource type="PackedScene" uid="uid://7ay1i575gbmc" path="res://Characters/fox.tscn" id="4_jb8cj"]
 
 [sub_resource type="Resource" id="Resource_jb8cj"]
 resource_local_to_scene = true
@@ -24,3 +25,6 @@ loop = false
 
 [node name="TrainSkin" parent="." instance=ExtResource("3_5h8w2")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -0.65)
+
+[node name="fox" parent="." instance=ExtResource("4_jb8cj")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.934877, 1.2193)
