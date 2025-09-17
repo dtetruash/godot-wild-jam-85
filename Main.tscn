@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=17 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -8,11 +8,14 @@
 [ext_resource type="Script" uid="uid://c2xbkgbrnxhab" path="res://Systems/route_tool/route_tool.gd" id="5_fos0i"]
 [ext_resource type="Environment" uid="uid://b7ylg2qt15txq" path="res://Systems/sky/examples/sky.tres" id="7_lgr22"]
 [ext_resource type="Script" uid="uid://0vd0smb6gsel" path="res://Systems/scheduler/scheduler.gd" id="7_trn2v"]
+[ext_resource type="PackedScene" uid="uid://ru3i0ywlnnbw" path="res://StateMachine/state_machine.tscn" id="8_trn2v"]
 [ext_resource type="Texture2D" uid="uid://c2abhs8a85d1q" path="res://Assets/UI/Default/banner_classic_curtain.png" id="9_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://cf06o4scatsrg" path="res://Assets/UI/Default/checkbox_brown_checked.png" id="10_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://cay6rpcbj2lty" path="res://Assets/UI/Default/panel_brown_corners_b.png" id="10_20pc6"]
 [ext_resource type="Texture2D" uid="uid://coe5h0l2j4fy7" path="res://Assets/UI/Default/checkbox_brown_cross.png" id="11_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bn57m61am43h2" path="res://Assets/UI/Default/panel_grid_paper.png" id="12_c6i3y"]
+[ext_resource type="Script" uid="uid://chlm58w2u1m8c" path="res://StateMachine/game_states/overview_state.gd" id="15_fpfj3"]
+[ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="16_sc1dx"]
 
 [node name="Root" type="Node3D"]
 
@@ -35,6 +38,14 @@ script = ExtResource("4_3dxm6")
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("3_r0du0")
+
+[node name="BuildModeButton" type="Button" parent="UIContainer"]
+offset_left = 1.0
+offset_top = 33.0
+offset_right = 57.0
+offset_bottom = 64.0
+toggle_mode = true
+text = "BUILD"
 
 [node name="Scheduler" type="Node2D" parent="UIContainer"]
 visible = false
@@ -118,3 +129,15 @@ texture_normal = ExtResource("12_c6i3y")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_lgr22")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") groups=["GameState"] instance=ExtResource("8_trn2v")]
+initial_state = NodePath("Overview")
+
+[node name="Overview" type="Node" parent="StateMachine"]
+script = ExtResource("15_fpfj3")
+
+[node name="Building" type="Node" parent="StateMachine"]
+script = ExtResource("16_sc1dx")
+
+[connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Overview" method="_on_build_mode_button_toggled"]
+[connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Building" method="_on_build_mode_button_toggled"]
