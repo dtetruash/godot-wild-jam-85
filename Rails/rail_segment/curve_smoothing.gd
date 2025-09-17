@@ -102,7 +102,7 @@ static func smooth(curve: Curve3D) -> void :
 					Sstar.append((6 * pt) - curve.get_point_position(n - 1))
 				else:
 					Sstar.append(6 * pt)
-
+			print_debug("calculating B[1] to B[n-2] for ", n)
 			# Calculate B[1] to B[n - 2]
 			for i in range(n - 2):
 				var inverse_row : Array[int] = inverse[i]
@@ -116,6 +116,7 @@ static func smooth(curve: Curve3D) -> void :
 		B.append(curve.get_point_position(n - 1))
 
 		# From S and B, set in/out control points for curve.
+		print_debug("setting control oints")
 		for i in range(n):
 			var pt := curve.get_point_position(i)
 			if i == 0:
@@ -135,6 +136,7 @@ static func smooth(curve: Curve3D) -> void :
 # The last returned array entry is an 'int' that represents the denominator of each element.
 # An empty Array is returned if there is an error.
 static func _inverse_4_1_4(order : int) -> Array:
+	print_debug("inverse")
 	assert(order >= 2)
 	if order < 2:
 		return []
@@ -173,4 +175,86 @@ static func _inverse_4_1_4(order : int) -> Array:
 		ret.append(row)
 
 	ret.append(theta[order])
+	print_debug("finished inverse")
 	return ret
+
+## Add in/out points to a Curve3D to make it smooth in-place
+# this function is a bit different than the ones above,
+# mostly because instead of converting the matrix inverse
+# explicity (super unstable) and then multipling, 
+# we rather solve the tridiagonal system directly using thomas algorithm
+# Thanks Wikipedia
+static func smooth_solver(curve: Curve3D) -> void:
+	if curve.point_count <= 2:
+		return
+	
+	var n := curve.point_count
+	var B: Array[Vector3] = []
+	B.append(curve.get_point_position(0)) # B[0] = S[0]
+	
+	if n == 3:
+		# Simple closed form for 3 points
+		B.append(1.5 * (curve.get_point_position(1) -
+			(1.0/6.0) * (curve.get_point_position(0) + curve.get_point_position(2))))
+	else:
+		# Build RHS S* (size n-2)
+		var Sstar: Array[Vector3] = []
+		for i in range(1, n - 1):
+			var pt = curve.get_point_position(i)
+			if i == 1:
+				Sstar.append((6.0 * pt) - curve.get_point_position(0))
+			elif i == (n - 2):
+				Sstar.append((6.0 * pt) - curve.get_point_position(n - 1))
+			else:
+				Sstar.append(6.0 * pt)
+		
+		# Solve the tridiagonal system with Thomas algorithm
+		var B_inner: Array[Vector3] = _solve_tridiagonal(Sstar)
+		for b in B_inner:
+			B.append(b)
+	
+	B.append(curve.get_point_position(n - 1)) # B[n-1] = S[n-1]
+	
+	# From S and B, set in/out control points for curve
+	for i in range(n):
+		var pt = curve.get_point_position(i)
+		if i == 0:
+			curve.set_point_in(i, Vector3.ZERO)
+		else:
+			var cp_in: Vector3 = (0.3333 * B[i - 1]) + (0.6667 * B[i])
+			curve.set_point_in(i, cp_in - pt)
+		if i == (n - 1):
+			curve.set_point_out(i, Vector3.ZERO)
+		else:
+			var cp_out: Vector3 = (0.6667 * B[i]) + (0.3333 * B[i + 1])
+			curve.set_point_out(i, cp_out - pt)
+
+
+# Solve tridiagonal system Ax = d where A has:
+static func _solve_tridiagonal(d: Array[Vector3]) -> Array[Vector3]:
+	var n = d.size()
+	if n == 0:
+		return []
+	
+	var c: Array[float] = []
+	var d2: Array[Vector3] = []
+	c.resize(n)
+	d2.resize(n)
+	
+	# Forward
+	c[0] = 1.0 / 4.0
+	d2[0] = d[0] / 4.0
+	for i in range(1, n):
+		var denom = (4.0 - c[i - 1])
+		var m = 1.0 / denom
+		c[i] = m
+		d2[i] = (d[i] - d2[i - 1]) * m
+	
+	# Backsub giggity
+	var x: Array[Vector3] = []
+	x.resize(n)
+	x[n - 1] = d2[n - 1]
+	for i in range(n - 2, -1, -1):
+		x[i] = d2[i] - c[i] * x[i + 1]
+	
+	return x
