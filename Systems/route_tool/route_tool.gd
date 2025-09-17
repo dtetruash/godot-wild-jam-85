@@ -23,23 +23,19 @@ func _on_town_clicked(id: int) -> void:
 		var start: Vector2i = map_manager.get_town_centers()[start_id]
 		var end: Vector2i = map_manager.get_town_centers()[end_id]
 		var path: Array[Vector2i] = path_finder.a_star(start, end)
-		#print_debug("Found path from %s to %s" % [town_manager.town_names[2], town_manager.town_names[14]])
 		var path_world_3d: Array[Vector3] = []
 		for axial_coord in path:
 			var coord_3d = map_manager.axial_to_world_3d(axial_coord.x, axial_coord.y)
 			coord_3d += self.vertical_rail_offset * Vector3.UP
-			#var new_debug_marker = debug_marker.instantiate()
-			#new_debug_marker.transform = new_debug_marker.transform.scaled(Vector3(6.0, 6.0, 6.0))
-			#new_debug_marker.transform.origin = coord_3d
-			#self.add_child(new_debug_marker)
 			path_world_3d.append(coord_3d)
 		path_world_3d = path_finder.insert_midpoints(path_world_3d)
 		print_debug("Creating rail")
 
-		var added_segment =  self.rail_manager.add_rail_segment_from_points(start, end, path_world_3d)
-		var train_follower = TRAIN_FOLLOWER.instantiate()
-		add_child(train_follower)
-		train_follower.assign_to_segment(added_segment)
+		self.rail_manager.add_rail_segment_from_points(start_id, end_id, path_world_3d)
+		#var train_follower = TRAIN_FOLLOWER.instantiate()
+		#add_child(train_follower)
+		#train_follower.assign_to_segment(added_segment)
+		emit_signal("rail_added", start_id, end_id)
 
 		clicked_towns.clear()
 
