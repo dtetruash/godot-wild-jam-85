@@ -6,7 +6,7 @@ extends Path3D
 		_regenerate_multimesh()
 		plank_interval = clampf(value, 0.3, 1.0)
 
-@export var should_smooth_segment : bool = false
+@export var should_smooth_segment : bool = true
 
 ## Node whose childer's transforms could be used as points of the segment
 @export var path_guide: Node3D
@@ -35,7 +35,9 @@ func set_segment_points(world_points: Array[Vector3]) -> void:
 			segment_point_visualizer.add_child(debug_point)
 
 	if should_smooth_segment:
-		CurveSmoothing.smooth(curve)
+		print_debug("smoothing")
+		CurveSmoothing.smooth_solver(curve)
+		#CurveSmoothing.catmull_rom_smooth_curve(curve, false)
 
 func _ready() -> void:
 	_set_curve_points_from_guide()
