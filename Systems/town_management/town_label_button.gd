@@ -1,4 +1,4 @@
-extends TextureRect
+class_name TownLabel extends TextureRect
 
 @export var town_position: Vector3
 @export var town_name: String
