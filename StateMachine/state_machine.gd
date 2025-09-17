@@ -13,7 +13,7 @@ func _ready() -> void:
 			state.transitioned.connect(on_child_transitioned)
 
 	if not initial_state:
-		assert(false, "No intial state for state machine " + str(self) + " set.")
+		assert(false, "No intial state for state machine " + str(self) + " set. Was " + str(initial_state))
 
 	initial_state._enter()
 	current_state = initial_state
