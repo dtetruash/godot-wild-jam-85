@@ -29,6 +29,10 @@ folder_colors={
 
 import/blender/enabled=false
 
+[global_group]
+
+GameState="Nodes which govern the game"
+
 [input]
 
 camera_zoom_in={

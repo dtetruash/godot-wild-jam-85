@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=11 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://cwowl246xw6wg" path="res://Systems/ui_signal_router/ui_signal_router.gd" id="4_3dxm6"]
 [ext_resource type="Script" uid="uid://c2xbkgbrnxhab" path="res://Systems/route_tool/route_tool.gd" id="5_fos0i"]
 [ext_resource type="Environment" uid="uid://b7ylg2qt15txq" path="res://Systems/sky/examples/sky.tres" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://ru3i0ywlnnbw" path="res://StateMachine/state_machine.tscn" id="8_trn2v"]
+[ext_resource type="Script" uid="uid://chlm58w2u1m8c" path="res://StateMachine/game_states/overview_state.gd" id="9_wkp8b"]
+[ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="10_20pc6"]
 
 [node name="Root" type="Node3D"]
 
@@ -30,5 +33,23 @@ offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("3_r0du0")
 
+[node name="BuildModeButton" type="Button" parent="UIContainer"]
+offset_right = 8.0
+offset_bottom = 8.0
+toggle_mode = true
+text = "BUILD"
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_lgr22")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") groups=["GameState"] instance=ExtResource("8_trn2v")]
+initial_state = NodePath("Overview")
+
+[node name="Overview" type="Node" parent="StateMachine"]
+script = ExtResource("9_wkp8b")
+
+[node name="Building" type="Node" parent="StateMachine"]
+script = ExtResource("10_20pc6")
+
+[connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Overview" method="_on_build_mode_button_toggled"]
+[connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Building" method="_on_build_mode_button_toggled"]
