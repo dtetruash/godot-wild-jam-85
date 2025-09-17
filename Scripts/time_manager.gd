@@ -19,7 +19,7 @@ enum Day {
 @onready var time_multiplier = minutes_per_day / day_duration_wall_time_minutes
 @onready var map_manager = self.get_parent().find_child("MapManager", true)
 
-var time_started: bool = false
+var is_game_paused: bool = false
 
 signal time_changed(hours, minutes, day)
 
@@ -33,11 +33,20 @@ func get_display_time_truncated() -> Vector3:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	self.get_parent().connect("scheduler_opened", _on_scheduler_opened)
+	self.get_parent().connect("scheduler_closed", _on_scheduler_closed)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	current_time += time_multiplier * (delta / 60.0)
-	var display_time = self.get_display_time_truncated()
-	emit_signal("time_changed", display_time.x, display_time.y, display_time.z)
+	if not self.is_game_paused:
+		current_time += time_multiplier * (delta / 60.0)
+		var display_time = self.get_display_time_truncated()
+		emit_signal("time_changed", display_time.x, display_time.y, display_time.z)
+	
+func _on_scheduler_opened():
+	self.is_game_paused = true
+	
+func _on_scheduler_closed():
+	self.is_game_paused = false
+	
