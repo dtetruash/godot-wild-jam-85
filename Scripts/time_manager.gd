@@ -20,7 +20,7 @@ enum Day {
 @onready var map_manager = self.get_parent().find_child("MapManager", true)
 
 var is_game_paused: bool = false
-
+var prev_display_time: Vector3 = Vector3.ZERO
 signal time_changed(hours, minutes, day)
 
 ## This function returns a Vector2 with the x component being hours and y being minutes and z being day
@@ -42,7 +42,9 @@ func _process(delta: float) -> void:
 	if not self.is_game_paused:
 		current_time += time_multiplier * (delta / 60.0)
 		var display_time = self.get_display_time_truncated()
-		emit_signal("time_changed", display_time.x, display_time.y, display_time.z)
+		if display_time != prev_display_time:
+			emit_signal("time_changed", display_time.x, display_time.y, display_time.z)
+			prev_display_time = display_time
 	
 func _on_scheduler_opened():
 	self.is_game_paused = true

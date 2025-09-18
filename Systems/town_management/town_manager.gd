@@ -19,8 +19,17 @@ func initialize_town_data(town_centers_2d: Array[Vector2i]):
 	print_debug("initializing %d towns" % num_towns)
 	for i in range(num_towns):
 		var town_center_2d = town_centers_2d[i]
-		self.town_names.append(town_names_set[rng.randi() % num_town_names])
+		var name = town_names_set[rng.randi() % num_town_names]
+		while name in self.town_names:
+			name = town_names_set[rng.randi() % num_town_names]
+		self.town_names.append(name)
 		self.town_centers.append(self.map_manager.axial_to_world_3d(town_center_2d.x, town_center_2d.y))
+		
+func find_town_with_name(name: String) -> int:
+	for i in range(town_names.size()):
+		if town_names[i] == name:
+			return i
+	return -1
 
 func initialize_ui_elements():
 	print_debug("About to initialize %d labels" % town_names.size())
@@ -32,9 +41,9 @@ func initialize_ui_elements():
 		print_debug("Initializing label for ", town_names[i], " ", i)
 		var town_name: String = self.town_names[i]
 		var town_label = self.town_label_template.instantiate()
-		town_label.find_child("TextureRect").town_name = town_name
-		town_label.find_child("TextureRect").town_position = self.town_centers[i] + 5.0 * Vector3.UP
-		town_label.find_child("TextureRect").town_id = i
+		town_label.town_name = town_name
+		town_label.town_position = self.town_centers[i] + 5.0 * Vector3.UP
+		town_label.town_id = i
 		ui_root.add_child(town_label)
 		self.num_labels += 1
 

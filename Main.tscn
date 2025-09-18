@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=18 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cay6rpcbj2lty" path="res://Assets/UI/Default/panel_brown_corners_b.png" id="10_20pc6"]
 [ext_resource type="Texture2D" uid="uid://coe5h0l2j4fy7" path="res://Assets/UI/Default/checkbox_brown_cross.png" id="11_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bn57m61am43h2" path="res://Assets/UI/Default/panel_grid_paper.png" id="12_c6i3y"]
+[ext_resource type="PackedScene" uid="uid://b74vuefo6raar" path="res://Systems/scheduler/schedule_entry.tscn" id="12_sc1dx"]
 [ext_resource type="Script" uid="uid://chlm58w2u1m8c" path="res://StateMachine/game_states/overview_state.gd" id="15_fpfj3"]
 [ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="16_sc1dx"]
 
@@ -48,55 +49,63 @@ toggle_mode = true
 text = "BUILD"
 
 [node name="Scheduler" type="Node2D" parent="UIContainer"]
-visible = false
 script = ExtResource("7_trn2v")
 
-[node name="Panel" type="Panel" parent="UIContainer/Scheduler"]
-z_index = 1
+[node name="CenterContainer" type="CenterContainer" parent="UIContainer/Scheduler"]
+offset_right = 1153.0
+offset_bottom = 650.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="UIContainer/Scheduler/CenterContainer"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="UIContainer/Scheduler/CenterContainer/Control"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 352.0
-offset_top = 176.0
-offset_right = 854.0
-offset_bottom = 440.0
+offset_left = -362.0
+offset_top = -207.5
+offset_right = 362.0
+offset_bottom = 207.5
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UIContainer/Scheduler/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.998
-anchor_bottom = 1.0
-offset_right = 0.0039978
-offset_bottom = 1.0
 texture = ExtResource("10_20pc6")
-region_rect = Rect2(0.640404, 0.0414448, 62.9601, 63.4389)
 patch_margin_left = 18
 patch_margin_top = 19
 patch_margin_right = 18
 patch_margin_bottom = 17
 
-[node name="TextureRect2" type="TextureRect" parent="UIContainer/Scheduler/Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UIContainer/Scheduler/CenterContainer/Control/NinePatchRect"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 70.0
+offset_right = 701.0
+offset_bottom = 392.0
+
+[node name="EntryContainer" type="VBoxContainer" parent="UIContainer/Scheduler/CenterContainer/Control/NinePatchRect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScheduleEntry" parent="UIContainer/Scheduler/CenterContainer/Control/NinePatchRect/ScrollContainer/EntryContainer" instance=ExtResource("12_sc1dx")]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="UIContainer/Scheduler/CenterContainer/Control/NinePatchRect"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -166.0
-offset_right = 132.0
-offset_bottom = -102.0
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 64.0
 grow_horizontal = 2
-grow_vertical = 2
 texture = ExtResource("9_wkp8b")
 
-[node name="Label" type="Label" parent="UIContainer/Scheduler/Panel/TextureRect2"]
+[node name="Label" type="Label" parent="UIContainer/Scheduler/CenterContainer/Control/NinePatchRect/TextureRect2"]
 layout_mode = 0
 offset_left = 73.0
 offset_top = 18.0
@@ -104,27 +113,30 @@ offset_right = 187.0
 offset_bottom = 41.0
 text = "Train Schedule"
 
-[node name="AddScheduleEntryButton" type="TextureButton" parent="UIContainer/Scheduler"]
+[node name="AddScheduleEntryButton" type="TextureButton" parent="UIContainer/Scheduler/CenterContainer/Control"]
 z_index = 1
-offset_left = 369.0
-offset_top = 191.0
-offset_right = 393.0
-offset_bottom = 215.0
+layout_mode = 0
+offset_left = -341.0
+offset_top = -187.0
+offset_right = -317.0
+offset_bottom = -163.0
 texture_normal = ExtResource("10_5vvyt")
 
-[node name="Exit" type="TextureButton" parent="UIContainer/Scheduler"]
+[node name="Exit" type="TextureButton" parent="UIContainer/Scheduler/CenterContainer/Control"]
 z_index = 1
-offset_left = 813.0
-offset_top = 190.0
-offset_right = 837.0
-offset_bottom = 214.0
+layout_mode = 0
+offset_left = 321.0
+offset_top = -189.0
+offset_right = 345.0
+offset_bottom = -165.0
 texture_normal = ExtResource("11_5vvyt")
 
 [node name="OpenSchedulerButton" type="TextureButton" parent="UIContainer"]
-offset_left = 1080.0
-offset_top = 174.0
-offset_right = 1144.0
-offset_bottom = 238.0
+z_index = 1
+offset_left = 1078.0
+offset_top = 11.0
+offset_right = 1142.0
+offset_bottom = 75.0
 texture_normal = ExtResource("12_c6i3y")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

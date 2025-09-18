@@ -17,8 +17,6 @@ func _ready() -> void:
 	_follower.add_child(_remote_transform)
 	_remote_transform.remote_path = self.get_path()
 
-	train_chars.speed += randf() * 0.2 * (-1 * randi() % 2 )
-
 func _process(delta: float) -> void:
 	move_along_segment(delta)
 
