@@ -39,6 +39,7 @@ show_segment_points = true
 [node name="SegmentPointVisualizer" type="Node3D" parent="."]
 
 [node name="TrackRight" type="CSGPolygon3D" parent="."]
+unique_name_in_owner = true
 material_override = ExtResource("2_iwxy6")
 polygon = PackedVector2Array(0.51, 0.09, 0.54, 0.09, 0.57, 0.05, 0.56, 0, 0.49, 0, 0.48, 0.05)
 mode = 2
@@ -56,6 +57,7 @@ smooth_faces = true
 material = ExtResource("2_iwxy6")
 
 [node name="TrackLeft" type="CSGPolygon3D" parent="."]
+unique_name_in_owner = true
 material_override = ExtResource("2_iwxy6")
 polygon = PackedVector2Array(-0.52, 0, -0.53, 0.05, -0.5, 0.09, -0.47, 0.09, -0.44, 0.05, -0.45, 0)
 mode = 2
@@ -73,6 +75,7 @@ smooth_faces = true
 material = ExtResource("2_iwxy6")
 
 [node name="TrackPlanks" type="MultiMeshInstance3D" parent="."]
+unique_name_in_owner = true
 multimesh = SubResource("MultiMesh_3o5ql")
 
 [node name="HitBox" type="CSGPolygon3D" parent="."]
