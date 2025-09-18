@@ -95,7 +95,7 @@ path_joined = false
 material = SubResource("StandardMaterial3D_iwxy6")
 
 [node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("4_86u5e")]
-initial_state = NodePath("Preview")
+initial_state = NodePath("Constructed")
 
 [node name="Preview" type="Node" parent="StateMachine"]
 script = ExtResource("5_7n3j5")
