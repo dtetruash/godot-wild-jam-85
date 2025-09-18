@@ -72,8 +72,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.998
 anchor_bottom = 1.0
-offset_right = 0.0039978
-offset_bottom = 1.0
+offset_left = -119.0
+offset_top = -89.0
+offset_right = 112.004
+offset_bottom = 120.0
 texture = ExtResource("10_20pc6")
 region_rect = Rect2(0.640404, 0.0414448, 62.9601, 63.4389)
 patch_margin_left = 18
@@ -88,10 +90,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -166.0
-offset_right = 132.0
-offset_bottom = -102.0
+offset_left = -128.0
+offset_top = -240.0
+offset_right = 134.0
+offset_bottom = -176.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_wkp8b")
@@ -106,21 +108,22 @@ text = "Train Schedule"
 
 [node name="AddScheduleEntryButton" type="TextureButton" parent="UIContainer/Scheduler"]
 z_index = 1
-offset_left = 369.0
-offset_top = 191.0
-offset_right = 393.0
-offset_bottom = 215.0
+offset_left = 258.0
+offset_top = 113.0
+offset_right = 282.0
+offset_bottom = 137.0
 texture_normal = ExtResource("10_5vvyt")
 
 [node name="Exit" type="TextureButton" parent="UIContainer/Scheduler"]
 z_index = 1
-offset_left = 813.0
-offset_top = 190.0
-offset_right = 837.0
-offset_bottom = 214.0
+offset_left = 918.0
+offset_top = 108.0
+offset_right = 942.0
+offset_bottom = 132.0
 texture_normal = ExtResource("11_5vvyt")
 
 [node name="OpenSchedulerButton" type="TextureButton" parent="UIContainer"]
+z_index = 1
 offset_left = 1080.0
 offset_top = 174.0
 offset_right = 1144.0

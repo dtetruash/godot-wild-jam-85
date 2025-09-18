@@ -3,7 +3,7 @@ extends Node
 @onready var rail_manager = self.get_parent().get_parent().find_child("RailManager", true)
 @export var schedule: Array[Dictionary] = []
 
-
+signal scheduler_closed
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.find_child("Exit").connect("pressed", _on_exit_clicked)

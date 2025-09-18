@@ -12,6 +12,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="HourSelect" type="SpinBox" parent="Control"]
+layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
 offset_right = 90.0
@@ -19,6 +20,7 @@ offset_bottom = 85.0
 alignment = 1
 
 [node name="MinuteSelect" type="SpinBox" parent="Control"]
+layout_mode = 0
 offset_left = 106.0
 offset_top = 54.0
 offset_right = 193.0
@@ -36,6 +38,7 @@ offset_right = 252.0
 offset_bottom = 78.0
 
 [node name="Destination" type="OptionButton" parent="Control"]
+layout_mode = 0
 offset_left = 316.0
 offset_top = 58.0
 offset_right = 348.0
