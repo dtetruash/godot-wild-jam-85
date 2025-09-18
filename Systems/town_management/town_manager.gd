@@ -19,8 +19,17 @@ func initialize_town_data(town_centers_2d: Array[Vector2i]):
 	print_debug("initializing %d towns" % num_towns)
 	for i in range(num_towns):
 		var town_center_2d = town_centers_2d[i]
-		self.town_names.append(town_names_set[rng.randi() % num_town_names])
+		var name = town_names_set[rng.randi() % num_town_names]
+		while name in self.town_names:
+			name = town_names_set[rng.randi() % num_town_names]
+		self.town_names.append(name)
 		self.town_centers.append(self.map_manager.axial_to_world_3d(town_center_2d.x, town_center_2d.y))
+		
+func find_town_with_name(name: String) -> int:
+	for i in range(town_names.size()):
+		if town_names[i] == name:
+			return i
+	return -1
 
 func initialize_ui_elements():
 	print_debug("About to initialize %d labels" % town_names.size())

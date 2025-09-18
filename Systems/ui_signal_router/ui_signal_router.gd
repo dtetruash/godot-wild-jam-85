@@ -21,6 +21,7 @@ func _on_open_scheduler_button_pressed():
 	
 func _on_scheduler_closed():
 	print_debug("scheuler closed")
+	emit_signal("scheduler_closed")
 	for child in get_children():
 		if child is TownLabel:
 			child.visible = true
