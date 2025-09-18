@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnhwff0g6xxw6"]
+[gd_scene load_steps=7 format=3 uid="uid://cnhwff0g6xxw6"]
 
 [ext_resource type="Script" uid="uid://ht0t3xxbmvvi" path="res://Scripts/gen_grid_map.gd" id="2_7yn8b"]
 [ext_resource type="Script" uid="uid://cj242g3jmvvbr" path="res://Systems/decorations/decorations_manager.gd" id="2_etk83"]
 [ext_resource type="Script" uid="uid://dyawowmn180js" path="res://Systems/town_management/town_manager.gd" id="3_etk83"]
 [ext_resource type="Script" uid="uid://dhx2r23nyml37" path="res://Systems/pathfinder/path_finder.gd" id="4_qumfl"]
 [ext_resource type="PackedScene" uid="uid://gfnd55po7ns6" path="res://Rails/rail_manager/rail_manager.tscn" id="5_r08cw"]
+[ext_resource type="PackedScene" uid="uid://bkubsqgsb5fwv" path="res://Effects/water/WaterPlane.tscn" id="6_00287"]
 
 [node name="Map" type="Node3D"]
 
@@ -25,3 +26,5 @@ script = ExtResource("3_etk83")
 script = ExtResource("4_qumfl")
 
 [node name="RailManager" parent="." instance=ExtResource("5_r08cw")]
+
+[node name="WaterPlane" parent="." instance=ExtResource("6_00287")]
