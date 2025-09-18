@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b74vuefo6raar"]
+[gd_scene load_steps=5 format=3 uid="uid://b74vuefo6raar"]
 
 [ext_resource type="Script" uid="uid://dc8e1s47pwrm2" path="res://Systems/scheduler/schedule_entry.gd" id="1_8l751"]
 [ext_resource type="Texture2D" uid="uid://boafyt4lltecv" path="res://Assets/UI/Default/button_red_close.png" id="2_tw1d3"]
+[ext_resource type="Texture2D" uid="uid://wwna2m0vbn3o" path="res://Assets/UI/Default/panel_border_brown.png" id="3_bcidy"]
+[ext_resource type="Texture2D" uid="uid://dqc4u5b31gcjo" path="res://Assets/UI/Default/pattern_diagonal_transparent_small.png" id="4_llie5"]
 
 [node name="ScheduleEntry" type="Control"]
 custom_minimum_size = Vector2(0.285, 50)
@@ -32,6 +34,13 @@ layout_mode = 2
 
 [node name="DestinationSelect" type="OptionButton" parent="HBoxContainer"]
 layout_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+nine_patch_stretch = true
+texture_over = ExtResource("3_bcidy")
+texture_progress = ExtResource("4_llie5")
 
 [node name="TextureButton" type="TextureButton" parent="HBoxContainer"]
 layout_mode = 2
