@@ -26,6 +26,10 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state._physics_update(delta)
 
+func _input(event: InputEvent) -> void:
+	if current_state:
+		current_state._on_input(event)
+
 func on_child_transitioned(old_state, new_state_name):
 	if old_state != current_state:
 		return
@@ -40,3 +44,4 @@ func on_child_transitioned(old_state, new_state_name):
 
 	new_state._enter()
 	current_state = new_state
+	print_debug("Transitioned from state " + str(old_state.name) + " to state " + new_state_name)
