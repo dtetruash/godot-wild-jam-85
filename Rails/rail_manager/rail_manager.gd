@@ -5,15 +5,22 @@ extends Node3D
 
 # (Vector2i, Vector2i) -> RailSegment
 @export var _rails_in_level: Dictionary[Array, Node3D]
+@export var preview_rail: Node3D = null
 
 signal rail_added
 
 func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vector3]):
+	if preview_rail != null:
+		self.remove_child(preview_rail)
+		preview_rail = null
 	if [start, end] in _rails_in_level or [end, start] in _rails_in_level:
 		return
 	var segment := rail_segment.instantiate()
 	self.add_child(segment)
 	segment.set_segment_points(world_points)
+	self.preview_rail = segment
+
+func _build_rail(start:int, end: int, segment):
 	_rails_in_level[[start, end]] = segment
 
 func get_segment(start:int, end:int):

@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 const TRAIN_FOLLOWER = preload('res://Rails/train/train_follower.tscn')
 const schedule_entry_template = preload("res://Systems/scheduler/schedule_entry.tscn")
