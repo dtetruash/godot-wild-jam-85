@@ -4,10 +4,10 @@
 extends Node3D
 
 enum CameraMode {
-    ## Pan by clicking and dragging and zoomed between zoom stops.
-    Overview,
-    ## Automatically lock into the smallest zoom stop and begin to rotate around the focus point.
-    Focus,
+	## Pan by clicking and dragging and zoomed between zoom stops.
+	Overview,
+	## Automatically lock into the smallest zoom stop and begin to rotate around the focus point.
+	Focus,
 }
 
 ## The behaviors mode of the camera
@@ -15,8 +15,8 @@ enum CameraMode {
 
 @export_group("Angle Properties")
 @export_range(-85.0, -10.0) var camera_angle: float = -40.0:
-    set(value):
-        camera_angle = clampf(value, -40.0, -15.0)
+	set(value):
+		camera_angle = clampf(value, -40.0, -15.0)
 @export_range(5, 360) var angular_speed: float = 5
 
 @export_group("Zoom Properties", "zoom")
@@ -24,8 +24,8 @@ enum CameraMode {
 @export var zoom_stops: Array[float] = [3.0, 5.0, 10.0]
 var current_zoom_stop_index: int = zoom_stops.size() - 1
 var target_zoom_stop: float = zoom_stops[current_zoom_stop_index]:
-    set(value):
-        target_zoom_stop = clampf(value, zoom_minimum, zoom_maximum)
+	set(value):
+		target_zoom_stop = clampf(value, zoom_minimum, zoom_maximum)
 
 @export var zoom_minimum: float = 1.0
 @export var zoom_maximum: float = 15.0
@@ -46,43 +46,43 @@ var _is_panning: bool = false
 
 
 func _ready() -> void:
-    zoom_stops.sort()
+	zoom_stops.sort()
 
 func _process(delta: float) -> void:
-    if camera_arm.spring_length != target_zoom_stop:
-        _vary_camera_arm_length(delta)
+	if camera_arm.spring_length != target_zoom_stop:
+		_vary_camera_arm_length(delta)
 
-    if camera_pivot.rotation_degrees.x != camera_angle:
-        _angle_camera_arm(delta)
+	if camera_pivot.rotation_degrees.x != camera_angle:
+		_angle_camera_arm(delta)
 
 func _input(event: InputEvent) -> void:
-    if event.is_action_pressed(input_action_zoom_in):
-        _zoom_in()
+	if event.is_action_pressed(input_action_zoom_in):
+		_zoom_in()
 
-    if event.is_action_pressed(input_action_zoom_out):
-        _zoom_out()
+	if event.is_action_pressed(input_action_zoom_out):
+		_zoom_out()
 
-    if event.is_action_pressed(input_action_pan):
-        _is_panning = true
-    if event.is_action_released(input_action_pan):
-        _is_panning = false
-    if _is_panning && event is InputEventMouseMotion:
-        var pan_direction := -Vector3(event.relative.x, 0, event.relative.y)
-        position += pan_direction * pan_speed_coefficient * zoom_stops[current_zoom_stop_index]
+	if event.is_action_pressed(input_action_pan):
+		_is_panning = true
+	if event.is_action_released(input_action_pan):
+		_is_panning = false
+	if _is_panning && event is InputEventMouseMotion:
+		var pan_direction := -Vector3(event.relative.x, 0, event.relative.y)
+		position += pan_direction * pan_speed_coefficient * zoom_stops[current_zoom_stop_index]
 
 # Move the camera arm with easing
 func _vary_camera_arm_length(delta: float):
-    camera_arm.spring_length = lerp(camera_arm.spring_length, target_zoom_stop, delta * zoom_speed)
+	camera_arm.spring_length = lerp(camera_arm.spring_length, target_zoom_stop, delta * zoom_speed)
 
 func _angle_camera_arm(delta: float):
-    camera_pivot.rotation_degrees.x = lerp(camera_pivot.rotation_degrees.x, camera_angle, delta * angular_speed)
+	camera_pivot.rotation_degrees.x = lerp(camera_pivot.rotation_degrees.x, camera_angle, delta * angular_speed)
 
 func _zoom_in():
-    current_zoom_stop_index = max(current_zoom_stop_index - 1, 0)
-    target_zoom_stop = zoom_stops[current_zoom_stop_index]
-    camera_angle += 15
+	current_zoom_stop_index = max(current_zoom_stop_index - 1, 0)
+	target_zoom_stop = zoom_stops[current_zoom_stop_index]
+	camera_angle += 15
 
 func _zoom_out():
-    current_zoom_stop_index = min(current_zoom_stop_index + 1, zoom_stops.size() - 1)
-    target_zoom_stop = zoom_stops[current_zoom_stop_index]
-    camera_angle -= 15
+	current_zoom_stop_index = min(current_zoom_stop_index + 1, zoom_stops.size() - 1)
+	target_zoom_stop = zoom_stops[current_zoom_stop_index]
+	camera_angle -= 15

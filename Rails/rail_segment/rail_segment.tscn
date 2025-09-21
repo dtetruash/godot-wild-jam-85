@@ -34,6 +34,7 @@ plank_interval = 1.0
 show_segment_points = true
 
 [node name="SegmentPointVisualizer" type="Node3D" parent="."]
+visible = false
 
 [node name="TrackRight" type="CSGPolygon3D" parent="."]
 unique_name_in_owner = true

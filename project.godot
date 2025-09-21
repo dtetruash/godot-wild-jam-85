@@ -57,3 +57,8 @@ camera_pan={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

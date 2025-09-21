@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqnvmajl2usqy"
 path.s3tc="res://.godot/imported/mountain_models_forest_texture.png-971f846c65c0a484564912257b6986a1.s3tc.ctex"
+path.etc2="res://.godot/imported/mountain_models_forest_texture.png-971f846c65c0a484564912257b6986a1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/Models/mountain_models_forest_texture.png"
-dest_files=["res://.godot/imported/mountain_models_forest_texture.png-971f846c65c0a484564912257b6986a1.s3tc.ctex"]
+dest_files=["res://.godot/imported/mountain_models_forest_texture.png-971f846c65c0a484564912257b6986a1.s3tc.ctex", "res://.godot/imported/mountain_models_forest_texture.png-971f846c65c0a484564912257b6986a1.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://csui1wt4xys61"
 path.s3tc="res://.godot/imported/colormap.png-a8e96b2b04bf7888ecb1b480aa4846e8.s3tc.ctex"
+path.etc2="res://.godot/imported/colormap.png-a8e96b2b04bf7888ecb1b480aa4846e8.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/towns/Textures/colormap.png"
-dest_files=["res://.godot/imported/colormap.png-a8e96b2b04bf7888ecb1b480aa4846e8.s3tc.ctex"]
+dest_files=["res://.godot/imported/colormap.png-a8e96b2b04bf7888ecb1b480aa4846e8.s3tc.ctex", "res://.godot/imported/colormap.png-a8e96b2b04bf7888ecb1b480aa4846e8.etc2.ctex"]
 
 [params]
 
