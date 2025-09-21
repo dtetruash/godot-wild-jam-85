@@ -8,6 +8,9 @@ class_name TownLabel extends Node3D
 @onready var node_surface: MeshInstance3D = $TownLabelSkin/Surface
 @onready var node_viewport: SubViewport = $SubViewport
 
+@onready var button: Button = $SubViewport/TownLabelUI/Button
+@onready var ui_manager = self.find_parent("UIContainer")
+
 # Used for checking if the mouse is inside the Area3D.
 var is_mouse_inside = false
 # The last processed input touch/mouse event. To calculate relative movement.
@@ -15,16 +18,17 @@ var last_event_pos2D = null
 # The time of the last event in seconds since engine start.
 var last_event_time: float = -1.0
 
-
 func _ready() -> void:
+	button.pressed.connect(_on_button_pressed)
 	# `town_global_pos` is the Vector3 position of the town in world space
 	self.find_child("Label", true).text = self.town_name
 
+func _on_button_pressed() -> void:
+	print_debug("Clicked a town!")
+	ui_manager._on_town_clicked(self.town_id)
+
 func _process(delta):
 	#rotate_area_to_billboard()
-	if is_mouse_inside:
-		#if clicking, fire the button town manager
-		pass
 	pass
 
 func _mouse_entered_area():

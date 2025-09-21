@@ -39,9 +39,10 @@ modulate_color = Color(0.892578, 0.892578, 0.892578, 1)
 script = ExtResource("2_pp5xc")
 
 [node name="TownLabelSkin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.93107)
 
 [node name="Surface" type="MeshInstance3D" parent="TownLabelSkin"]
-transform = Transform3D(1, 0, 0, 0, -1.20201e-07, -1, 0, 1, -1.20201e-07, 0.00374779, 2.62808, -0.00331896)
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 2.628, 0)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_tbl3u")
 skeleton = NodePath("../Area")
