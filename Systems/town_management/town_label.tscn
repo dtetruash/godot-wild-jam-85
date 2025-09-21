@@ -1,41 +1,80 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbtc8cegixbpr"]
+[gd_scene load_steps=10 format=3 uid="uid://bbtc8cegixbpr"]
 
 [ext_resource type="Texture2D" uid="uid://qqmsvlarfcn5" path="res://Assets/UI/Default/button_brown.png" id="1_pp5xc"]
+[ext_resource type="Texture2D" uid="uid://dupeypuytjeuy" path="res://Assets/UI/Default/button_grey.png" id="2_l5ec6"]
 [ext_resource type="Script" uid="uid://di0hhxfbjx5vp" path="res://Systems/town_management/town_label_button.gd" id="2_pp5xc"]
 
-[node name="TownLabel" type="Control"]
-layout_mode = 3
-anchor_right = 1.0
-anchor_bottom = 0.537
-offset_right = -1152.0
-offset_bottom = -347.976
-script = ExtResource("2_pp5xc")
+[sub_resource type="BoxShape3D" id="BoxShape3D_mg218"]
+size = Vector3(12.9354, 3.48901, 3.18243)
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-offset_right = 256.0
-offset_bottom = 64.0
+[sub_resource type="ViewportTexture" id="ViewportTexture_l5ec6"]
+viewport_path = NodePath("TownLabelSkin/SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg218"]
+texture = ExtResource("2_l5ec6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l5ec6"]
 texture = ExtResource("1_pp5xc")
 
-[node name="Button" type="Button" parent="TextureRect"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tbl3u"]
+texture = ExtResource("2_l5ec6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pp5xc"]
+texture = ExtResource("1_pp5xc")
+modulate_color = Color(0.892578, 0.892578, 0.892578, 1)
+
+[node name="TownLabel" type="Node3D"]
+script = ExtResource("2_pp5xc")
+
+[node name="TownLabelSkin" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6139, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TownLabelSkin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00462389, -0.00817752, 0.0599632)
+shape = SubResource("BoxShape3D_mg218")
+
+[node name="Sprite3D" type="Sprite3D" parent="TownLabelSkin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00374779, 0.0141803, -0.00331896)
+pixel_size = 0.05
+billboard = 1
+double_sided = false
+render_priority = 10
+texture = SubResource("ViewportTexture_l5ec6")
+
+[node name="SubViewport" type="SubViewport" parent="TownLabelSkin"]
+size = Vector2i(256, 64)
+
+[node name="TownLabelUI" type="Control" parent="TownLabelSkin/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="TownLabelSkin/SubViewport/TownLabelUI"]
 z_index = -1
+texture_filter = 1
 layout_mode = 0
 offset_right = 257.0
 offset_bottom = 65.0
+theme_override_colors/icon_hover_color = Color(0.890625, 0.890625, 0.890625, 1)
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mg218")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l5ec6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tbl3u")
+theme_override_styles/normal = SubResource("StyleBoxTexture_pp5xc")
 
-[node name="Label" type="Label" parent="TextureRect"]
+[node name="Label" type="Label" parent="TownLabelSkin/SubViewport/TownLabelUI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -51.5
-offset_top = -15.0
-offset_right = 51.5
-offset_bottom = 15.0
+offset_left = 76.5
+offset_top = 17.0
+offset_right = 179.5
+offset_bottom = 47.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 21
-text = "Test Town"
+text = "Town Label"
