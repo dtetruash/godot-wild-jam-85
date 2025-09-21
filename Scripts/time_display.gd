@@ -7,11 +7,11 @@ extends Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+
 	time_manager.connect("time_changed", _on_time_changed)
 
 
-	
+
 func _on_time_changed(hours: int, minutes: int, day: int) -> void:
 	self.text = "%02d:%02d" % [hours, minutes]
 

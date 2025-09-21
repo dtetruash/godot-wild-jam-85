@@ -12,8 +12,8 @@ func _on_build_mode_button_toggled(toggled_on: bool) -> void:
 
 func _ready():
 	ui_router.connect("town_clicked", _on_town_clicked)
-	
-	
+
+
 func _on_town_clicked(id: int):
 	if self.get_parent().current_state == self:
 		print_debug("town_clicked in build state")

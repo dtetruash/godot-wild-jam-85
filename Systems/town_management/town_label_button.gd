@@ -16,9 +16,8 @@ func _process(delta):
 	var screen_pos = viewport.get_camera_3d().unproject_position(town_position)
 	self.position = screen_pos - self.size / 2  # center label above town
 	self.find_child("Label", true).text = self.town_name
-	
-	
+
+
 func _on_button_pressed() -> void:
 	#print_debug("Clicked!", town_name)
 	ui_manager._on_town_clicked(self.town_id)
-	

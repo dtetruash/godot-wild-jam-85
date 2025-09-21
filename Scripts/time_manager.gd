@@ -29,7 +29,7 @@ func get_display_time_truncated() -> Vector3:
 	var minutes = int(current_time) % 60
 	var day = int(current_time / minutes_per_day) % 7
 	return Vector3(hours, minutes, day)
-	
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,10 +45,9 @@ func _process(delta: float) -> void:
 		if display_time != prev_display_time:
 			emit_signal("time_changed", display_time.x, display_time.y, display_time.z)
 			prev_display_time = display_time
-	
+
 func _on_scheduler_opened():
 	self.is_game_paused = true
-	
+
 func _on_scheduler_closed():
 	self.is_game_paused = false
-	

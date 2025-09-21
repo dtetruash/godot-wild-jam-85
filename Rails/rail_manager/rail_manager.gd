@@ -36,7 +36,7 @@ func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vect
 	segment.set_segment_points(world_points)
 	self.preview_rail = segment
 	self.preview_key = [start, end]
-	
+
 	# set material to preview material
 	var cost = floor(self.preview_rail.curve.get_baked_length())
 	if cost < self.money.get_current_money():
@@ -47,7 +47,7 @@ func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vect
 		self.preview_rail.find_child("TrackRight").material_override = PREVIEW_NONPLACABLE
 		self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_NONPLACABLE
 		self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_NONPLACABLE
-		
+
 	emit_signal("preview_rail_built", self.preview_rail.curve.get_baked_length())
 
 func _on_confirm_rail():
@@ -59,10 +59,10 @@ func _build_rail(start:int, end: int, segment):
 	self.preview_rail.find_child("TrackRight").material_override = MATERIAL_RAIL_METAIL
 	self.preview_rail.find_child("TrackLeft").material_override = MATERIAL_RAIL_METAIL
 	self.preview_rail.find_child("TrackPlanks").material_override = RAIL_WOOD
-	
-	
+
+
 	_rails_in_level[[start, end]] = segment
-	
+
 
 func get_segment(start:int, end:int):
 	if [start, end] in self._rails_in_level.keys():
@@ -101,5 +101,3 @@ func _on_state_changed(state_name):
 	if state_name == 'overview':
 		self.remove_child(self.preview_rail)
 		self.preview_rail = null
-		
-		
