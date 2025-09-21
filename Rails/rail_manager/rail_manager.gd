@@ -7,7 +7,10 @@ extends Node3D
 @export var _rails_in_level: Dictionary[Array, Node3D]
 @export var preview_rail: Node3D = null
 @export var preview_key: Array
-@onready var confirm_build = self.get_parent().get_parent().find_child("ConfirmBuild")
+
+@onready var confirm_build = self.get_parent().get_parent().find_child("ConfirmBuild", true)
+@onready var state_machine = self.get_parent().get_parent().find_child("StateMachine")
+@onready var money = self.get_parent().get_parent().find_child("Money", true)
 
 const PREVIEW_PLACABLE = preload('res://Rails/rail_segment/preview_placable.material')
 const PREVIEW_NONPLACABLE = preload('res://Rails/rail_segment/preview_nonplacable.material')
@@ -20,6 +23,7 @@ signal preview_rail_built
 
 func _ready() -> void:
 	confirm_build.connect("confirm_rail", _on_confirm_rail)
+	state_machine.connect("state_changed", _on_state_changed)
 
 func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vector3]):
 	if preview_rail != null:
@@ -34,11 +38,16 @@ func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vect
 	self.preview_key = [start, end]
 	
 	# set material to preview material
-	# TODO: Check if there is enough money
-	self.preview_rail.find_child("TrackRight").material_override = PREVIEW_PLACABLE
-	self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_PLACABLE
-	self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_PLACABLE
-	
+	var cost = floor(self.preview_rail.curve.get_baked_length())
+	if cost < self.money.get_current_money():
+		self.preview_rail.find_child("TrackRight").material_override = PREVIEW_PLACABLE
+		self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_PLACABLE
+		self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_PLACABLE
+	else:
+		self.preview_rail.find_child("TrackRight").material_override = PREVIEW_NONPLACABLE
+		self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_NONPLACABLE
+		self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_NONPLACABLE
+		
 	emit_signal("preview_rail_built", self.preview_rail.curve.get_baked_length())
 
 func _on_confirm_rail():
@@ -87,3 +96,10 @@ func get_towns_with_rails() -> Array[int]:
 
 func is_town_in_network(town_id: int) -> bool:
 	return town_id in get_towns_with_rails()
+
+func _on_state_changed(state_name):
+	if state_name == 'overview':
+		self.remove_child(self.preview_rail)
+		self.preview_rail = null
+		
+		

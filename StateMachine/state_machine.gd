@@ -4,6 +4,8 @@ extends Node
 var current_state: State
 var states: Dictionary[String, State]
 
+signal state_changed(String)
+
 func _ready() -> void:
 	for child in get_children():
 		if child is State:
@@ -45,3 +47,4 @@ func on_child_transitioned(old_state, new_state_name):
 	new_state._enter()
 	current_state = new_state
 	print_debug("Transitioned from state " + str(old_state.name) + " to state " + new_state_name)
+	emit_signal("state_changed", new_state_name)
