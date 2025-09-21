@@ -1,0 +1,53 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7lq8h8xsp5bt"]
+
+[ext_resource type="PackedScene" uid="uid://nmychuxcvw4m" path="res://Assets/Models/Tiles/tile2.glb" id="1_wesa6"]
+[ext_resource type="PackedScene" uid="uid://bb11j4a6ra8kd" path="res://Assets/Models/towns/lantern.glb" id="2_aws8h"]
+[ext_resource type="PackedScene" uid="uid://bus2fevkni185" path="res://Scenes/big_house.tscn" id="2_ibg78"]
+[ext_resource type="Material" uid="uid://bve6k0c4ws3e5" path="res://Assets/Materials/Forest.tres" id="2_wesa6"]
+[ext_resource type="PackedScene" uid="uid://bueyuqlclpi1p" path="res://Scenes/House.tscn" id="3_ttvld"]
+[ext_resource type="PackedScene" uid="uid://38lr8pju4mvq" path="res://Assets/Models/towns/fountain-round-detail.glb" id="6_xsctd"]
+[ext_resource type="PackedScene" uid="uid://bdp62drw22qjc" path="res://Assets/Models/towns/fence.glb" id="7_j4xt1"]
+[ext_resource type="PackedScene" uid="uid://7ekxfa3xwmep" path="res://Assets/Models/towns/tree-high.glb" id="8_hagyr"]
+[ext_resource type="PackedScene" uid="uid://b01fqgv2se8ik" path="res://Assets/Models/towns/cart-high.glb" id="9_6hrxd"]
+[ext_resource type="PackedScene" uid="uid://mvo4r7xjmk2y" path="res://Scenes/windmil.tscn" id="10_xsctd"]
+
+[node name="tile2" instance=ExtResource("1_wesa6")]
+
+[node name="lantern3" parent="." index="0" instance=ExtResource("2_aws8h")]
+transform = Transform3D(0.67, 0, 0, 0, 0.67, 0, 0, 0, 0.67, 2.80229, 1.25, 0.542283)
+
+[node name="BigHouse" parent="." index="1" instance=ExtResource("2_ibg78")]
+transform = Transform3D(0.669979, 0, -0.00527377, 0, 0.67, 0, 0.00527377, 0, 0.669979, -2.24216, 1.25, 0.309295)
+
+[node name="Cylinder" parent="." index="2"]
+surface_material_override/0 = ExtResource("2_wesa6")
+
+[node name="House1" parent="." index="3" instance=ExtResource("3_ttvld")]
+transform = Transform3D(-0.562698, 0, 0.363691, 0, 0.67, 0, -0.363691, 0, -0.562698, 2.35117, 1.25, -0.770943)
+
+[node name="lantern2" parent="." index="4" instance=ExtResource("2_aws8h")]
+transform = Transform3D(0.67, 0, 0, 0, 0.67, 0, 0, 0, 0.67, -1.28433, 1.25, 1.28157)
+
+[node name="fountain-round-detail2" parent="." index="5" instance=ExtResource("6_xsctd")]
+transform = Transform3D(0.67, 0, 0, 0, 0.67, 0, 0, 0, 0.67, 0.176833, 1.25, 0.659593)
+
+[node name="fence2" parent="." index="6" instance=ExtResource("7_j4xt1")]
+transform = Transform3D(0.0694875, 0, -0.666387, 0, 0.67, 0, 0.666387, 0, 0.0694875, 1.35392, 1.25, 2.7159)
+
+[node name="fence2" parent="fence2" index="1" instance=ExtResource("7_j4xt1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00282145, 3.57628e-07, -0.941657)
+
+[node name="fence3" parent="fence2" index="2" instance=ExtResource("7_j4xt1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00315332, -3.57628e-07, -0.918772)
+
+[node name="fence4" parent="fence2" index="3" instance=ExtResource("7_j4xt1")]
+transform = Transform3D(-4.47035e-08, 0, 1, 0, 1, 0, -1, 0, -4.47035e-08, -0.975649, 0, -0.907804)
+
+[node name="tree-high2" parent="fence2" index="4" instance=ExtResource("8_hagyr")]
+transform = Transform3D(1.48936, 0, 0.0973307, 0, 1.49254, 0, -0.0973307, 0, 1.48936, -0.4537, 0, -0.566934)
+
+[node name="cart-high2" parent="." index="7" instance=ExtResource("9_6hrxd")]
+transform = Transform3D(0.67, 0, 0, 0, 0.67, 0, 0, 0, 0.67, -0.938747, 1.25, 2.87338)
+
+[node name="Windmill" parent="." index="8" instance=ExtResource("10_xsctd")]
+transform = Transform3D(-0.101275, 0, 0.662302, 0, 0.67, 0, -0.662302, 0, -0.101275, -0.921871, 1.25, -2.64192)

@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=3 uid="uid://bus2fevkni185"]
+
+[ext_resource type="PackedScene" uid="uid://b1rdfgmodch6m" path="res://Assets/Models/towns/wall-window-shutters.glb" id="1_70fju"]
+[ext_resource type="PackedScene" uid="uid://dfmmirk0tr1xg" path="res://Assets/Models/towns/wall-door.glb" id="1_lt5xs"]
+[ext_resource type="PackedScene" uid="uid://qg4nbtwvcxap" path="res://Assets/Models/towns/wall-wood-window-shutters.glb" id="1_t60fj"]
+[ext_resource type="PackedScene" uid="uid://v10v048aamee" path="res://Assets/Models/towns/wall-wood.glb" id="2_6t6w3"]
+[ext_resource type="PackedScene" uid="uid://c5f58usgki7gf" path="res://Assets/Models/towns/wall.glb" id="2_70fju"]
+[ext_resource type="PackedScene" uid="uid://in7dtl60mrhi" path="res://Assets/Models/towns/roof-high-left.glb" id="2_bvt2o"]
+[ext_resource type="PackedScene" uid="uid://de0r3bg3sms6l" path="res://Assets/Models/towns/roof-high.glb" id="3_wvj2y"]
+[ext_resource type="PackedScene" uid="uid://db6x1tl3gr56p" path="res://Assets/Models/towns/roof-high-right.glb" id="4_ico1v"]
+
+[node name="BigHouse" type="Node3D"]
+
+[node name="wall-wood-window-shutters2" parent="." instance=ExtResource("1_t60fj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="roof-high-left2" parent="wall-wood-window-shutters2" instance=ExtResource("2_bvt2o")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 1)
+
+[node name="roof-high2" parent="wall-wood-window-shutters2/roof-high-left2" instance=ExtResource("3_wvj2y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="roof-high-left3" parent="wall-wood-window-shutters2" instance=ExtResource("2_bvt2o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="roof-high-right3" parent="wall-wood-window-shutters2" instance=ExtResource("4_ico1v")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -1)
+
+[node name="wall-wood5" parent="wall-wood-window-shutters2" instance=ExtResource("2_6t6w3")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, 1)
+
+[node name="wall-wood2" parent="wall-wood-window-shutters2" instance=ExtResource("2_6t6w3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -1)
+
+[node name="wall-wood-window-shutters2" parent="wall-wood-window-shutters2" instance=ExtResource("1_t60fj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="wall-wood-window-shutters3" parent="wall-wood-window-shutters2" instance=ExtResource("1_t60fj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="wall-wood-window-shutters4" parent="wall-wood-window-shutters2" instance=ExtResource("1_t60fj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, 0)
+
+[node name="wall-wood-window-shutters5" parent="wall-wood-window-shutters2" instance=ExtResource("1_t60fj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, 1)
+
+[node name="wall-wood-window-shutters6" parent="wall-wood-window-shutters2" instance=ExtResource("1_t60fj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, -1)
+
+[node name="wall-wood3" parent="wall-wood-window-shutters2" instance=ExtResource("2_6t6w3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 0, -1)
+
+[node name="wall-wood4" parent="wall-wood-window-shutters2" instance=ExtResource("2_6t6w3")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 1)
+
+[node name="roof-high-right2" parent="wall-wood-window-shutters2" instance=ExtResource("4_ico1v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+
+[node name="roof-high2" parent="wall-wood-window-shutters2" instance=ExtResource("3_wvj2y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+
+[node name="wall-door2" parent="." instance=ExtResource("1_lt5xs")]
+
+[node name="wall-window-shutters2" parent="wall-door2" instance=ExtResource("1_70fju")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, 1)
+
+[node name="wall2" parent="wall-door2" instance=ExtResource("2_70fju")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -1)
+
+[node name="wall3" parent="wall-door2" instance=ExtResource("2_70fju")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 0, -1)
+
+[node name="wall4" parent="wall-door2" instance=ExtResource("2_70fju")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 1)
+
+[node name="wall5" parent="wall-door2" instance=ExtResource("2_70fju")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, 1)
+
+[node name="wall-window-shutters3" parent="wall-door2" instance=ExtResource("1_70fju")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, -1)
+
+[node name="wall-window-shutters4" parent="wall-door2" instance=ExtResource("1_70fju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="wall-window-shutters2" parent="wall-door2/wall-window-shutters4" instance=ExtResource("1_70fju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="wall-window-shutters3" parent="wall-door2/wall-window-shutters4" instance=ExtResource("1_70fju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
