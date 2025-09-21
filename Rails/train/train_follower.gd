@@ -11,7 +11,7 @@ var _current_segment: Path3D = null
 var _progress_along_segment: float = 0.0:
 	set(value):
 		_progress_along_segment = clampf(value, 0.0, 1.0)
-		
+
 var finished = false
 
 func _ready() -> void:

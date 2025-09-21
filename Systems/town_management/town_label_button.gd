@@ -4,7 +4,7 @@ class_name TownLabel extends Node3D
 @export var town_name: String
 @export var town_id: int
 
-@onready var node_area: Area3D = $TownLabelSkin/Area
+@onready var node_skin: Node3D = $TownLabelSkin
 @onready var node_surface: MeshInstance3D = $TownLabelSkin/Surface
 @onready var node_viewport: SubViewport = $SubViewport
 
@@ -28,7 +28,7 @@ func _on_button_pressed() -> void:
 	ui_manager._on_town_clicked(self.town_id)
 
 func _process(delta):
-	#rotate_area_to_billboard()
+	rotate_area_to_billboard()
 	pass
 
 func _mouse_entered_area():
@@ -109,13 +109,13 @@ func rotate_area_to_billboard():
 	# Get the camera.
 	var camera = get_viewport().get_camera_3d()
 	# Look in the same direction as the camera.
-	var look = camera.to_global(Vector3(0, 0, -100)) - camera.global_transform.origin
-	look = node_area.position + look
+	var look = camera.to_global(Vector3(0, 0, -10000)) - camera.global_transform.origin
+	look = node_skin.position + look
 
-	node_area.look_at(look, Vector3.UP)
+	node_skin.look_at(look, Vector3.UP)
 
 	# Rotate in the Z axis to compensate camera tilt.
-	node_area.rotate_object_local(Vector3.BACK, camera.rotation.z)
+	#node_skin.rotate_object_local(Vector3.BACK, camera.rotation.z)
 
 func _unhandled_input(event):
 	# ignoere non-mouse events

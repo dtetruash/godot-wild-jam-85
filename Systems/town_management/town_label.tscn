@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbtc8cegixbpr"]
+[gd_scene load_steps=14 format=3 uid="uid://bbtc8cegixbpr"]
 
 [ext_resource type="Texture2D" uid="uid://qqmsvlarfcn5" path="res://Assets/UI/Default/button_brown.png" id="1_pp5xc"]
 [ext_resource type="Texture2D" uid="uid://dupeypuytjeuy" path="res://Assets/UI/Default/button_grey.png" id="2_l5ec6"]
@@ -20,7 +20,10 @@ albedo_texture = SubResource("ViewportTexture_l5ec6")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mg218"]
 resource_local_to_scene = true
-size = Vector3(12.9354, 3.48901, 3.18243)
+size = Vector3(12.926, 5.03644, 0.618536)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mg218"]
+size = Vector3(17.37, 4.74, 5.25)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg218"]
 texture = ExtResource("2_l5ec6")
@@ -39,22 +42,26 @@ modulate_color = Color(0.892578, 0.892578, 0.892578, 1)
 script = ExtResource("2_pp5xc")
 
 [node name="TownLabelSkin" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.93107)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.52765, -7.32295)
 
 [node name="Surface" type="MeshInstance3D" parent="TownLabelSkin"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 2.628, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_tbl3u")
 skeleton = NodePath("../Area")
 surface_material_override/0 = SubResource("StandardMaterial3D_mg218")
 
 [node name="Area" type="Area3D" parent="TownLabelSkin"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6139, 0)
 collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TownLabelSkin/Area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00462389, -0.00817752, 0.0599632)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0106118, 0.041841, 0.213499)
 shape = SubResource("BoxShape3D_mg218")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TownLabelSkin/Area"]
+visible = false
+mesh = SubResource("BoxMesh_mg218")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
