@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=26 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -18,7 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://ciqmrbxo8myvu" path="res://Assets/UI/Default/panel_grid_blueprint.png" id="13_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://qqmsvlarfcn5" path="res://Assets/UI/Default/button_brown.png" id="14_kjvhd"]
 [ext_resource type="Script" uid="uid://chlm58w2u1m8c" path="res://StateMachine/game_states/overview_state.gd" id="15_fpfj3"]
+[ext_resource type="Script" uid="uid://cceguhfkoi2t7" path="res://Scripts/money.gd" id="16_3b0ty"]
+[ext_resource type="Texture2D" uid="uid://coau6ct8oaop7" path="res://Assets/UI/Default/panel_brown_corners_a.png" id="16_devvj"]
 [ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="16_sc1dx"]
+[ext_resource type="Texture2D" uid="uid://cecxofqr0mse" path="res://Assets/UI/tile_0151.png" id="17_3b0ty"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
 font_color = Color(0, 0, 0, 1)
@@ -27,6 +30,9 @@ font_color = Color(0, 0, 0, 1)
 font_size = 26
 shadow_size = 13
 shadow_color = Color(0.266667, 0.266667, 0.266667, 0.168627)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bg4s2"]
+font_color = Color(0.223103, 0.223103, 0.223103, 1)
 
 [node name="Root" type="Node3D"]
 
@@ -246,6 +252,45 @@ offset_bottom = 104.72
 grow_horizontal = 2
 text = "Cost to Build: {}"
 label_settings = SubResource("LabelSettings_5tuhn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Money" type="Control" parent="UIContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("16_3b0ty")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="UIContainer/Money"]
+layout_mode = 0
+offset_top = -19.0
+offset_right = 106.0
+offset_bottom = 40.0
+texture = ExtResource("16_devvj")
+patch_margin_left = 11
+patch_margin_top = 12
+patch_margin_right = 11
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="UIContainer/Money"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -8.0
+offset_right = 50.0
+offset_bottom = 32.0
+texture = ExtResource("17_3b0ty")
+
+[node name="Label" type="Label" parent="UIContainer/Money"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 88.0
+offset_bottom = 23.0
+text = "100"
+label_settings = SubResource("LabelSettings_bg4s2")
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -8,8 +8,9 @@ extends Node3D
 @export var preview_rail: Node3D = null
 @export var preview_key: Array
 
-@onready var confirm_build = self.get_parent().get_parent().find_child("ConfirmBuild")
+@onready var confirm_build = self.get_parent().get_parent().find_child("ConfirmBuild", true)
 @onready var state_machine = self.get_parent().get_parent().find_child("StateMachine")
+@onready var money = self.get_parent().get_parent().find_child("Money", true)
 
 const PREVIEW_PLACABLE = preload('res://Rails/rail_segment/preview_placable.material')
 const PREVIEW_NONPLACABLE = preload('res://Rails/rail_segment/preview_nonplacable.material')
@@ -37,11 +38,16 @@ func add_rail_segment_from_points(start: int, end: int, world_points: Array[Vect
 	self.preview_key = [start, end]
 	
 	# set material to preview material
-	# TODO: Check if there is enough money
-	self.preview_rail.find_child("TrackRight").material_override = PREVIEW_PLACABLE
-	self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_PLACABLE
-	self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_PLACABLE
-	
+	var cost = floor(self.preview_rail.curve.get_baked_length())
+	if cost < self.money.get_current_money():
+		self.preview_rail.find_child("TrackRight").material_override = PREVIEW_PLACABLE
+		self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_PLACABLE
+		self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_PLACABLE
+	else:
+		self.preview_rail.find_child("TrackRight").material_override = PREVIEW_NONPLACABLE
+		self.preview_rail.find_child("TrackLeft").material_override = PREVIEW_NONPLACABLE
+		self.preview_rail.find_child("TrackPlanks").material_override = PREVIEW_NONPLACABLE
+		
 	emit_signal("preview_rail_built", self.preview_rail.curve.get_baked_length())
 
 func _on_confirm_rail():
