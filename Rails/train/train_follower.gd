@@ -11,6 +11,8 @@ var _current_segment: Path3D = null
 var _progress_along_segment: float = 0.0:
 	set(value):
 		_progress_along_segment = clampf(value, 0.0, 1.0)
+		
+var finished = false
 
 func _ready() -> void:
 	_follower.rotation_mode = PathFollow3D.ROTATION_XY
@@ -20,9 +22,9 @@ func _ready() -> void:
 	_remote_transform.remote_path = self.get_path()
 
 func _process(delta: float) -> void:
+	if finished:
+		queue_free()
 	move_along_segment(delta)
-	if _progress_along_segment == 1.0:
-		emit_signal("finished_route")
 
 func assign_to_segment(segment: Path3D):
 	if _current_segment != null:
@@ -46,3 +48,8 @@ func remove_from_segment():
 
 func move_along_segment(delta: float):
 	_follower.progress_ratio += train_chars.speed * delta
+	if _follower.progress_ratio >= 0.98 and not self.finished:
+		self.finished = true
+		emit_signal("finished_route")
+		print_debug("route finished")
+		remove_from_segment()
