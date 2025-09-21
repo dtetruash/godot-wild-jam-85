@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://6tdcdvgv0kpl"]
 
-[ext_resource type="PackedScene" uid="uid://yjv8pu00hk0l" path="res://Assets/Models/trains/locomotive.glb" id="1_sxm0h"]
 [ext_resource type="PackedScene" uid="uid://b8jhkjubgkfxx" path="res://Effects/steam_plume/vfx_steam_plume.tscn" id="2_8i88f"]
+[ext_resource type="PackedScene" uid="uid://d0ee1a0ajxpp1" path="res://Assets/Models/trains/locomotive.glb" id="3_4w3gw"]
 
 [node name="TrainSkin" type="Node3D"]
 
-[node name="LocomotiveMesh" parent="." instance=ExtResource("1_sxm0h")]
+[node name="LocomotiveMesh" parent="." instance=ExtResource("3_4w3gw")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 
 [node name="VFX_SteamPlume" parent="." instance=ExtResource("2_8i88f")]
