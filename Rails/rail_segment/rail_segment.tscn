@@ -1,11 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://jx72y87c7ysq"]
+[gd_scene load_steps=8 format=3 uid="uid://jx72y87c7ysq"]
 
 [ext_resource type="Script" uid="uid://d0ad6bibyrsdr" path="res://Rails/rail_segment/rail_segment.gd" id="1_3o5ql"]
 [ext_resource type="Material" uid="uid://dw0olshq03fku" path="res://Rails/rail_segment/material_rail_metail.material" id="2_iwxy6"]
 [ext_resource type="Material" uid="uid://blhjihxmpbdy" path="res://Rails/rail_segment/rail_wood.material" id="3_iwxy6"]
-[ext_resource type="PackedScene" uid="uid://ru3i0ywlnnbw" path="res://StateMachine/state_machine.tscn" id="4_86u5e"]
-[ext_resource type="Script" uid="uid://c0qlnncw6h3cu" path="res://Rails/rail_segment/state_preview.gd" id="5_7n3j5"]
-[ext_resource type="Script" uid="uid://cofysjn3unf0v" path="res://Rails/rail_segment/state_constructed.gd" id="6_7n3j5"]
 
 [sub_resource type="Curve3D" id="Curve3D_m6w3m"]
 resource_local_to_scene = true
@@ -93,14 +90,5 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 material = SubResource("StandardMaterial3D_iwxy6")
-
-[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("4_86u5e")]
-initial_state = NodePath("Constructed")
-
-[node name="Preview" type="Node" parent="StateMachine"]
-script = ExtResource("5_7n3j5")
-
-[node name="Constructed" type="Node" parent="StateMachine"]
-script = ExtResource("6_7n3j5")
 
 [connection signal="curve_changed" from="." to="." method="_on_curve_changed"]

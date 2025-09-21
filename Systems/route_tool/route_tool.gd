@@ -11,7 +11,7 @@ var clicked_towns: Array[int] = []
 # TODO: Consider using a factory to instantiate trains
 const TRAIN_FOLLOWER = preload('res://Rails/train/train_follower.tscn')
 
-func _on_town_clicked(id: int) -> void:
+func select_town(id: int) -> void:
 	if clicked_towns.has(id):
 		return
 	if clicked_towns.size() == 0:
@@ -41,4 +41,5 @@ func _on_town_clicked(id: int) -> void:
 
 
 func _ready() -> void:
-	connect("town_clicked", _on_town_clicked)
+	#connect("town_clicked", _on_town_clicked)
+	pass

@@ -1,13 +1,15 @@
-extends Node
+extends Control
 
 @onready var route_tool = self.get_parent().find_child("RouteTool")
 
 signal scheduler_opened
 signal scheduler_closed
 
+signal town_clicked
 
 func _on_town_clicked(id: int) -> void:
-	route_tool._on_town_clicked(id)
+	#route_tool._on_town_clicked(id)
+	emit_signal("town_clicked", id)
 	
 func _ready():
 	self.find_child("OpenSchedulerButton").connect("pressed", _on_open_scheduler_button_pressed)

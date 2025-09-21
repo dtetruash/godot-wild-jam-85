@@ -19,6 +19,6 @@ func _process(delta):
 	
 	
 func _on_button_pressed() -> void:
-	print_debug("Clicked!", town_name)
+	#print_debug("Clicked!", town_name)
 	ui_manager._on_town_clicked(self.town_id)
 	

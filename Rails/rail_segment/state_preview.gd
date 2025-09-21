@@ -9,9 +9,9 @@ const PREVIEW_PLACABLE = preload('res://Rails/rail_segment/preview_placable.mate
 const PREVIEW_NONPLACABLE = preload('res://Rails/rail_segment/preview_nonplacable.material')
 
 func _enter():
-	track_planks.material_override = PREVIEW_NONPLACABLE
-	track_left.material_override = PREVIEW_NONPLACABLE
-	track_right.material_override = PREVIEW_NONPLACABLE
+	track_planks.material_override = PREVIEW_PLACABLE
+	track_left.material_override = PREVIEW_PLACABLE
+	track_right.material_override = PREVIEW_PLACABLE
 
 func _on_input(event: InputEvent) -> void:
 	if event is InputEventKey:
