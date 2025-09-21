@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=22 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -14,8 +14,19 @@
 [ext_resource type="Texture2D" uid="uid://cay6rpcbj2lty" path="res://Assets/UI/Default/panel_brown_corners_b.png" id="10_20pc6"]
 [ext_resource type="Texture2D" uid="uid://coe5h0l2j4fy7" path="res://Assets/UI/Default/checkbox_brown_cross.png" id="11_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bn57m61am43h2" path="res://Assets/UI/Default/panel_grid_paper.png" id="12_c6i3y"]
+[ext_resource type="Script" uid="uid://cty2ffkdbw38s" path="res://Scripts/confirm_build.gd" id="13_5tuhn"]
+[ext_resource type="Texture2D" uid="uid://ciqmrbxo8myvu" path="res://Assets/UI/Default/panel_grid_blueprint.png" id="13_sc1dx"]
+[ext_resource type="Texture2D" uid="uid://qqmsvlarfcn5" path="res://Assets/UI/Default/button_brown.png" id="14_kjvhd"]
 [ext_resource type="Script" uid="uid://chlm58w2u1m8c" path="res://StateMachine/game_states/overview_state.gd" id="15_fpfj3"]
 [ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="16_sc1dx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5tuhn"]
+font_size = 26
+shadow_size = 13
+shadow_color = Color(0.266667, 0.266667, 0.266667, 0.168627)
 
 [node name="Root" type="Node3D"]
 
@@ -163,6 +174,80 @@ offset_bottom = 90.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 texture_normal = ExtResource("12_c6i3y")
+
+[node name="ConfirmBuild" type="Control" parent="UIContainer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("13_5tuhn")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="UIContainer/ConfirmBuild"]
+layout_mode = 0
+offset_left = -212.0
+offset_top = -218.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_sc1dx")
+patch_margin_left = 9
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 9
+
+[node name="BuildButton" type="TextureButton" parent="UIContainer/ConfirmBuild/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = 26.0
+offset_right = 64.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("14_kjvhd")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UIContainer/ConfirmBuild/NinePatchRect/BuildButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Build"
+label_settings = SubResource("LabelSettings_kjvhd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PriceDisplay" type="Label" parent="UIContainer/ConfirmBuild/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_top = 68.72
+offset_right = 96.0
+offset_bottom = 104.72
+grow_horizontal = 2
+text = "Cost to Build: {}"
+label_settings = SubResource("LabelSettings_5tuhn")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_lgr22")
