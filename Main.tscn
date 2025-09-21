@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cmsgcif2xhq4q"]
+[gd_scene load_steps=27 format=3 uid="uid://cmsgcif2xhq4q"]
 
 [ext_resource type="PackedScene" uid="uid://cnhwff0g6xxw6" path="res://Scenes/Map.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://b6t4p5hw3tx7x" path="res://Systems/camera/camera_system.tscn" id="1_uu6xs"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://coau6ct8oaop7" path="res://Assets/UI/Default/panel_brown_corners_a.png" id="16_devvj"]
 [ext_resource type="Script" uid="uid://dtsehy347i2lp" path="res://StateMachine/game_states/building_state.gd" id="16_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://cecxofqr0mse" path="res://Assets/UI/tile_0151.png" id="17_3b0ty"]
+[ext_resource type="PackedScene" uid="uid://dvl383ispakmn" path="res://gui_panel_3d.tscn" id="23_bg4s2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
 font_color = Color(0, 0, 0, 1)
@@ -305,6 +306,10 @@ script = ExtResource("15_fpfj3")
 
 [node name="Building" type="Node" parent="StateMachine"]
 script = ExtResource("16_sc1dx")
+
+[node name="GUIPanel3D" parent="." instance=ExtResource("23_bg4s2")]
+transform = Transform3D(7.33769, 0, 0, 0, 7.33769, 0, 0, 0, 7.33769, 0, 14.4951, 0)
+visible = false
 
 [connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Overview" method="_on_build_mode_button_toggled"]
 [connection signal="toggled" from="UIContainer/BuildModeButton" to="StateMachine/Building" method="_on_build_mode_button_toggled"]

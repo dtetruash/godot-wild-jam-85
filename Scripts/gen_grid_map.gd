@@ -251,7 +251,7 @@ func draw_towns() -> void:
 			town.transform.origin = Vector3(world_pos_2d.x, 1.25 * height_scale - 1.25, world_pos_2d.y)
 			#town.transform = town.transform.rotated(Vector3.UP, PI / 2)
 			self.add_child(town)
-			
+
 func _init() -> void:
 	pass
 

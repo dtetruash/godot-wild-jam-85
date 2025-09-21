@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c2abhs8a85d1q"
 path.s3tc="res://.godot/imported/banner_classic_curtain.png-79d56ec3207ffc107ad4b62b86bd66eb.s3tc.ctex"
+path.etc2="res://.godot/imported/banner_classic_curtain.png-79d56ec3207ffc107ad4b62b86bd66eb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/UI/Default/banner_classic_curtain.png"
-dest_files=["res://.godot/imported/banner_classic_curtain.png-79d56ec3207ffc107ad4b62b86bd66eb.s3tc.ctex"]
+dest_files=["res://.godot/imported/banner_classic_curtain.png-79d56ec3207ffc107ad4b62b86bd66eb.s3tc.ctex", "res://.godot/imported/banner_classic_curtain.png-79d56ec3207ffc107ad4b62b86bd66eb.etc2.ctex"]
 
 [params]
 
