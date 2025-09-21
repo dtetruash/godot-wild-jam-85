@@ -3,6 +3,8 @@ extends Node3D
 
 @export var train_chars: TrainCharacteristics
 
+signal finished_route
+
 var _follower: PathFollow3D = PathFollow3D.new()
 var _remote_transform: RemoteTransform3D = RemoteTransform3D.new()
 var _current_segment: Path3D = null
@@ -19,6 +21,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	move_along_segment(delta)
+	if _progress_along_segment == 1.0:
+		emit_signal("finished_route")
 
 func assign_to_segment(segment: Path3D):
 	if _current_segment != null:

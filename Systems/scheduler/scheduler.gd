@@ -5,6 +5,7 @@ const schedule_entry_template = preload("res://Systems/scheduler/schedule_entry.
 @onready var rail_manager = self.get_parent().get_parent().find_child("RailManager", true)
 @onready var town_manager = self.get_parent().get_parent().find_child("TownManager", true)
 @onready var time_manager = self.get_parent().find_child("TimeManager", true)
+@onready var money = self.get_parent().find_child("Money")
 @onready var entry_container = self.find_child("EntryContainer", true)
 @export var schedule: Array[Dictionary] = []
 
@@ -61,5 +62,9 @@ func _on_time_changed(hour: int, minute: int, day: int):
 			if segment == null:
 				continue
 			var train_follower = TRAIN_FOLLOWER.instantiate()
+			train_follower.connect('finished_route', _on_finished_route)
 			self.add_child(train_follower)
 			train_follower.assign_to_segment(segment)
+			
+func _on_finished_route():
+	money.add_money(100)
