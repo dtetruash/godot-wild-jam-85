@@ -28,6 +28,7 @@ signal map_generated
 @export var radial_noise_weight: float = 0.7
 
 @onready var tile_mesh = preload("res://Scenes/Tilesv2.tscn")
+@onready var town_tile = preload("res://Scenes/TownTile.tscn")
 @onready var water_material = preload("res://Assets/Materials/Water.tres")
 @onready var grass_material = preload("res://Assets/Materials/Grass.tres")
 @onready var forest_material = preload("res://Assets/Materials/Forest.tres")
@@ -234,14 +235,23 @@ func create_map() -> void:
 			TileType.MountainTile:
 				new_tile.find_child('Cylinder').set_surface_override_material(0, mountain_material)
 			TileType.TownTile:
-				new_tile.find_child('Cylinder').set_surface_override_material(0, town_material)
-
+				#pass
+				new_tile.find_child('Cylinder').set_surface_override_material(0, forest_material)
 		# apply transforms
 		var height_scale = self.cells[cell]['height_scale']
 		new_tile.transform.origin = Vector3(world_pos_2d.x, 0, world_pos_2d.y)
 		new_tile.transform = new_tile.transform.scaled_local(Vector3(1.0, height_scale, 1.0))
 		self.add_child(new_tile)
-
+func draw_towns() -> void:
+	for cell in self.cells.keys():
+		var world_pos_2d = axial_to_world(cell.x, cell.y)
+		if self.cells[cell]['type'] == TileType.TownTile:
+			var town = town_tile.instantiate()
+			var height_scale = self.cells[cell]['height_scale']
+			town.transform.origin = Vector3(world_pos_2d.x, 1.25 * height_scale - 1.25, world_pos_2d.y)
+			#town.transform = town.transform.rotated(Vector3.UP, PI / 2)
+			self.add_child(town)
+			
 func _init() -> void:
 	pass
 
@@ -263,6 +273,7 @@ func _ready() -> void:
 
 	# finally, we instantiate meshes
 	self.create_map()
+	self.draw_towns()
 
 	# call the decorate function from my child
 	var decoration_manager = self.find_child("DecorationsManager")

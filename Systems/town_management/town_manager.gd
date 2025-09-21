@@ -42,7 +42,7 @@ func initialize_ui_elements():
 		var town_name: String = self.town_names[i]
 		var town_label = self.town_label_template.instantiate()
 		town_label.town_name = town_name
-		town_label.position =  self.town_centers[i]
+		town_label.position =  self.town_centers[i] + Vector3.UP * 3.0
 		town_label.town_id = i
 		ui_root.add_child(town_label)
 		self.num_labels += 1
